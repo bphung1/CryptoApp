@@ -1,7 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-
+/src/resources/application.properties
+*.properties
 
 # Created by https://www.toptal.com/developers/gitignore/api/java
 # Edit at https://www.toptal.com/developers/gitignore?templates=java
