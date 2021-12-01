@@ -1,4 +1,4 @@
 package crypto.dao;
 
-public interface PortfolioDaoImpl {
+public class PortfolioDaoImpl {
 }
