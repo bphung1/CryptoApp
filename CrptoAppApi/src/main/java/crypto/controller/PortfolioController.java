@@ -9,7 +9,7 @@ public class PortfolioController  extends ControllerBase{
     public Portfolio getPortfolio() {
         return null;
     }
-    @PostMapping("/createportfolio")
+    @PostMapping("/{userId}/createportfolio")
     public Portfolio createPortfolio() {
         return null;
     }
