@@ -15,18 +15,18 @@ import java.util.List;
 public class PortfolioDaoImpl implements PortfolioDao{
     @Autowired
     JdbcTemplate jdbc;
-    public static final class usersMapper implements RowMapper<Users> {
-        @Override
-        public Users mapRow(ResultSet resultSet, int i) throws SQLException {
-            Users users = new Users();
-            users.setUserid(resultSet.getInt("userId"));
-            users.setUsername(resultSet.getString("username"));
-            users.setPassword(resultSet.getString("password"));
-            users.setBalance(resultSet.getBigDecimal("balance"));
-            users.setEmail(resultSet.getString("email"));
-            return users;
-        }
-    }
+//    public static final class usersMapper implements RowMapper<Users> {
+//        @Override
+//        public Users mapRow(ResultSet resultSet, int i) throws SQLException {
+//            Users users = new Users();
+//            users.setUserid(resultSet.getInt("userId"));
+//            users.setUsername(resultSet.getString("username"));
+//            users.setPassword(resultSet.getString("password"));
+//            users.setBalance(resultSet.getBigDecimal("balance"));
+//            users.setEmail(resultSet.getString("email"));
+//            return users;
+//        }
+//    }
     public static final class portfolioMapper implements RowMapper<Portfolio> {
         @Override
         public Portfolio mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -38,34 +38,34 @@ public class PortfolioDaoImpl implements PortfolioDao{
             return portfolio;
         }
     }
-    public static final class activeInvestmentMapper implements RowMapper<Investments> {
-        @Override
-        public Investments mapRow(ResultSet resultSet, int i) throws SQLException {
-            Investments investments = new Investments();
-            investments.setInvestmentId(resultSet.getInt("investmentId"));
-            investments.setPortfolioId(resultSet.getInt("portfolioId"));
-            investments.setCryptoName(resultSet.getString("cryptoName"));
-            investments.setInvestedAmount(resultSet.getBigDecimal("investmentAmount"));
-            investments.setShares(resultSet.getInt("shares"));
-            return investments;
-        }
-    }
+//    public static final class activeInvestmentMapper implements RowMapper<Investments> {
+//        @Override
+//        public Investments mapRow(ResultSet resultSet, int i) throws SQLException {
+//            Investments investments = new Investments();
+//            investments.setInvestmentId(resultSet.getInt("investmentId"));
+//            investments.setPortfolioId(resultSet.getInt("portfolioId"));
+//            investments.setCryptoName(resultSet.getString("cryptoName"));
+//            investments.setInvestedAmount(resultSet.getBigDecimal("investmentAmount"));
+//            investments.setShares(resultSet.getInt("shares"));
+//            return investments;
+//        }
+//    }
 
-    public static final class TransactionsMapper implements RowMapper<Transactions> {
-        @Override
-        public Transactions mapRow(ResultSet resultSet, int i) throws SQLException {
-            Transactions transactions = new Transactions();
-            transactions.setTransactionId(resultSet.getInt("transactionId"));
-            transactions.setPortfolioId(resultSet.getInt("portfolioId"));
-            //transactions.setTimestamp(resultSet.getTimestamp("timeStamp"));
-            transactions.setTransactionAmount(resultSet.getBigDecimal("transactionAmount"));
-            transactions.setCryptoName(resultSet.getString("cryptoName"));
-            transactions.setTransactionAmount(resultSet.getBigDecimal("transactionType"));
-
-            transactions.setShares(resultSet.getInt("shares"));
-            return transactions;
-        }
-    }
+//    public static final class TransactionsMapper implements RowMapper<Transactions> {
+//        @Override
+//        public Transactions mapRow(ResultSet resultSet, int i) throws SQLException {
+//            Transactions transactions = new Transactions();
+//            transactions.setTransactionId(resultSet.getInt("transactionId"));
+//            transactions.setPortfolioId(resultSet.getInt("portfolioId"));
+//            //transactions.setTimestamp(resultSet.getTimestamp("timeStamp"));
+//            transactions.setTransactionAmount(resultSet.getBigDecimal("transactionAmount"));
+//            transactions.setCryptoName(resultSet.getString("cryptoName"));
+//            transactions.setTransactionAmount(resultSet.getBigDecimal("transactionType"));
+//
+//            transactions.setShares(resultSet.getInt("shares"));
+//            return transactions;
+//        }
+//    }
 
     @Override
     public Portfolio createPortfolio(Portfolio portfolio) {
