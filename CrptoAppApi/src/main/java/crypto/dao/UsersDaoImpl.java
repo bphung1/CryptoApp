@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ public class UsersDaoImpl implements UsersDao{
     JdbcTemplate jdbc;
 
     @Override
+    @Transactional
     public User createUsers(User user) throws DataAccessException {
         final String INSERT_NEW_USER = "INSERT INTO User(username, password, email) VALUES (?, ?, ?);";
 
@@ -39,6 +41,7 @@ public class UsersDaoImpl implements UsersDao{
     }
 
     @Override
+    @Transactional
     public User deleteUser(User user, int portfolioId) throws DataAccessException {
         final String DELETE_INVESTMENT_BY_PORTFOLIO = "DELETE FROM Investment WHERE portfolioId = ?;";
         final String DELETE_TRANSACTION_BY_PORTFOLIO = "DELETE FROM Transaction WHERE portfolioId = ?;";
