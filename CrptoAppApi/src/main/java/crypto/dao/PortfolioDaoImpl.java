@@ -81,7 +81,7 @@ public class PortfolioDaoImpl implements PortfolioDao{
 
     @Override
     public List<Portfolio> getPortfolio(int userId) {
-        final String GET_PORTFOLIO = "SELECT * from Portfolio where userId = ?";
+        final String GET_PORTFOLIO = "SELECT * from Portfolio where userId = ?;";
         return jdbc.query(GET_PORTFOLIO, new portfolioMapper(), userId);
     }
 
