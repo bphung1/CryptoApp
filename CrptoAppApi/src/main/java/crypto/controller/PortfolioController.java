@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 public class PortfolioController  extends ControllerBase{
-    @GetMapping("/getportfolio")
+    @GetMapping("/{userId}/getportfolio")
     public Portfolio getPortfolio() {
         return null;
     }
