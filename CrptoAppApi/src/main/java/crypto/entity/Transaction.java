@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Transactions {
+public class Transaction {
     private int transactionId;
     private int portfolioId;
     private LocalDateTime timestamp;
@@ -73,7 +73,7 @@ public class Transactions {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transactions that = (Transactions) o;
+        Transaction that = (Transaction) o;
         return transactionId == that.transactionId && portfolioId == that.portfolioId && shares == that.shares && Objects.equals(timestamp, that.timestamp) && Objects.equals(transactionAmount, that.transactionAmount) && Objects.equals(cryptoName, that.cryptoName) && Objects.equals(transactionType, that.transactionType);
     }
 

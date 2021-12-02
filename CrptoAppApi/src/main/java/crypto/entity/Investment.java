@@ -3,7 +3,7 @@ package crypto.entity;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Investments {
+public class Investment {
     private int investmentId;
     private int portfolioId;
     private String cryptoName;
@@ -54,7 +54,7 @@ public class Investments {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Investments that = (Investments) o;
+        Investment that = (Investment) o;
         return investmentId == that.investmentId && portfolioId == that.portfolioId && shares == that.shares && Objects.equals(cryptoName, that.cryptoName) && Objects.equals(investedAmount, that.investedAmount);
     }
 
