@@ -28,7 +28,7 @@ public class InvestmentDaoImpl implements InvestmentDao{
 
     @Override
     public List<Investment> getAllInvestments() throws DataAccessException {
-        final String SELECT_Investment = "SELECT * FROM Investment";
+        final String SELECT_Investment = "SELECT * FROM Investment;";
         return jdbcTemplate.query(SELECT_Investment, new investmentMapper());
     }
 }
