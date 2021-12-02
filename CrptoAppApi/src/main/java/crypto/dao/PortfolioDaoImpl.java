@@ -7,6 +7,7 @@ import crypto.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,6 +69,7 @@ public class PortfolioDaoImpl implements PortfolioDao{
 //    }
 
     @Override
+    @Transactional
     public Portfolio createPortfolio(Portfolio portfolio) {
         final String INSERT_PORTFOLIO = "INSERT INTO Portfolio (userId,investedTotalBalance,nonInvestedBalance)" + "VALUES(?,?,?);";
         jdbc.update(INSERT_PORTFOLIO,portfolio.getUserId(),portfolio.getInvestedTotalBalance().toString(),portfolio.getNonInvestedBalance());
