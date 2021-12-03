@@ -35,8 +35,15 @@ public class UsersDaoImpl implements UsersDao{
 
     @Override
     public User getUsers(String username, String password) throws DataAccessException {
-        final String SELECT_BY_USER_AND_PASSWORD = "SELECT * FROM Users WHERE username = ? AND password = ?;";
+        final String SELECT_BY_USER_AND_PASSWORD = "SELECT * FROM User WHERE username = ? AND password = ?;";
         User user = jdbc.queryForObject(SELECT_BY_USER_AND_PASSWORD, new UserMapper(), username, password);
+        return user;
+    }
+
+    @Override
+    public User getUserByUsername(String username) throws DataAccessException {
+        final String GET_USER_BY_USERNAME = "SELECT * FROM User WHERE username = ?";
+        User user = jdbc.queryForObject(GET_USER_BY_USERNAME, new UserMapper(), username);
         return user;
     }
 

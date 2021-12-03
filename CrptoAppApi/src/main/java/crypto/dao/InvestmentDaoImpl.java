@@ -15,7 +15,7 @@ import java.util.List;
 public class InvestmentDaoImpl implements InvestmentDao{
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    public static final  class  investmentMapper implements RowMapper<Investment> {
+    public static final class investmentMapper implements RowMapper<Investment> {
         public Investment mapRow(ResultSet resultSet, int i) throws SQLException {
             Investment investments=new Investment();
             investments.setInvestmentId(resultSet.getInt("investmentId"));

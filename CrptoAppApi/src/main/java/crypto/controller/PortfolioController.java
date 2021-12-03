@@ -4,12 +4,15 @@ import crypto.entity.Portfolio;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-public class PortfolioController  extends ControllerBase{
+@RestController
+public class PortfolioController extends ControllerBase{
     @GetMapping("/{userId}/getportfolio")
     public Portfolio getPortfolio(@PathVariable int userId) {
         return null;
     }
+
     @PostMapping("/{userId}/createportfolio")
     public Portfolio createPortfolio(@PathVariable int userId) {
         return null;
