@@ -1,8 +1,6 @@
 package crypto.dao;
 
 import crypto.entity.Portfolio;
-import crypto.entity.Transactions;
-import crypto.entity.Users;
 
 import java.util.List;
 

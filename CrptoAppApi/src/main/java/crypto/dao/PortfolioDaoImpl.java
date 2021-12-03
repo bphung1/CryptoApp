@@ -1,9 +1,6 @@
 package crypto.dao;
 
-import crypto.entity.Investments;
 import crypto.entity.Portfolio;
-import crypto.entity.Transactions;
-import crypto.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
