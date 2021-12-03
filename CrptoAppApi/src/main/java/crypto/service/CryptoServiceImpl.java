@@ -86,6 +86,11 @@ public class CryptoServiceImpl implements CryptoService{
 
     @Override
     public List<Investment> getInvestmentsByPortfolioId(int portfolioId) {
-        return null;
+        try {
+            return investmentDao.getAllInvestments(portfolioId);
+        }catch (DataAccessException ex){
+            return null;
+        }
+
     }
 }
