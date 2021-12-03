@@ -12,4 +12,5 @@ public class InvestmentsController extends ControllerBase {
     public List<Investment> getInvestments(@PathVariable int portfolioId){
         return null;
     }
+
 }
