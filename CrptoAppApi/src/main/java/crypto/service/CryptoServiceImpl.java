@@ -10,6 +10,7 @@ import crypto.entity.Transaction;
 import crypto.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -65,12 +66,22 @@ public class CryptoServiceImpl implements CryptoService{
 
     @Override
     public Portfolio getPortfolio(int userId) {
-        return null;
+        try {
+            return portfolioDao.getPortfolio(userId);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     @Override
-    public Transaction getTransactionByPortfolioId(int portfolioId) {
-        return null;
+    public List<Transaction> getTransactionByPortfolioId(int portfolioId) {
+
+        try {
+            return transactionDao.getTransactionsForPortfolio(portfolioId);
+        } catch (DataAccessException e) {
+            return null;
+        }
+
     }
 
     @Override
