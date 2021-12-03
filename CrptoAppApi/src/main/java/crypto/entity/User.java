@@ -32,7 +32,6 @@ public class User {
         this.password = password;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -45,8 +44,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User users = (User) o;
-        return userid == users.userid && Objects.equals(username, users.username) && Objects.equals(password, users.password)  && Objects.equals(email, users.email);
+        User user = (User) o;
+        return userid == user.userid && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
     }
 
     @Override
