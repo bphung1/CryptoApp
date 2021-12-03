@@ -1,6 +1,5 @@
 package crypto.entity;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class User {
