@@ -31,7 +31,7 @@ public class TransactionDaoImpl implements TransactionDao {
                 transaction.getTransactionType(),
                 transaction.getShares());
 
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         transaction.setTransactionId(newId);
 
         return transaction;
