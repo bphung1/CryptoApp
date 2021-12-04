@@ -84,6 +84,14 @@ public class PortfolioDaoImpl implements PortfolioDao{
         return jdbc.queryForObject(GET_PORTFOLIO, new portfolioMapper(), userId);
     }
 
+    @Override
+    public Portfolio updateNonInvestedBalance(Portfolio portfolio) {
+        final String UPDATE_NON_INVESTED_BALANCE_PORTFOLIO = "UPDATE Portfolio set nonInvestedBalance = ? where userId = ?;";
+        jdbc.update(UPDATE_NON_INVESTED_BALANCE_PORTFOLIO, portfolio.getNonInvestedBalance(),portfolio.getUserId());
+        return portfolio;
+    }
+
+
 //    @Override
 //    public List<Transactions> getActiveInvestment(int portfolioId) {
 //        final String SELECT_ACTIVE_INVESTMENTS = "SELECT cryptoName,transactionAmount, shares FROM Transactions where portfolioId = ?";

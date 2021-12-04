@@ -27,8 +27,7 @@ public class PortfolioController extends ControllerBase{
         return ResponseEntity.ok(portfolio);
     }
 
-    @PostMapping("/{userId}/createportfolio")
-    public Portfolio createPortfolio(@PathVariable int userId) {
-        return null;
-    }
+    @PostMapping("/{userId}/updatenoninvestedbalance")
+    public Portfolio updateNonInvestedBalanceInPortfolio(@PathVariable int userId) {}
+
 }
