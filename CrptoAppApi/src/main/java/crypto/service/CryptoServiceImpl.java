@@ -55,13 +55,27 @@ public class CryptoServiceImpl implements CryptoService{
     }
 
     @Override
-    public Portfolio inputNoninvestedBalance(int portfolioId, double deposit) {
-        return null;
+    public Portfolio inputNonInvestedBalance(int userId, double deposit) {
+       Portfolio user = portfolioDao.getPortfolio(userId);
+       BigDecimal currentBal = user.getNonInvestedBalance();
+        if(deposit > 0){
+            BigDecimal update = currentBal.add(BigDecimal.valueOf(deposit));
+            user.setNonInvestedBalance(update);
+        }
+            return portfolioDao.updateNonInvestedBalance(user);
     }
 
     @Override
-    public Portfolio withdrawFromNonInvBal(int portfolioId, double amount) {
-        return null;
+    public Portfolio withdrawFromNonInvBal(int userId, double amount) {
+        Portfolio user = portfolioDao.getPortfolio(userId);
+        BigDecimal currentBal = user.getNonInvestedBalance();
+        if(amount > 0){
+
+            BigDecimal update = currentBal.subtract(BigDecimal.valueOf(amount));
+            user.setNonInvestedBalance(update);
+        }
+        return portfolioDao.updateNonInvestedBalance(user);
+
     }
 
     @Override

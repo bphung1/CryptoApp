@@ -10,8 +10,8 @@ import java.util.List;
 public interface CryptoService {
     User login(String username, String password);
     User createAccount(User user);
-    Portfolio inputNoninvestedBalance(int portfolioId, double deposit);
-    Portfolio withdrawFromNonInvBal(int portfolioId, double amount);
+    Portfolio inputNonInvestedBalance(int userId, double deposit);
+    Portfolio withdrawFromNonInvBal(int userId, double amount);
     Portfolio getPortfolio(int userId);
     List<Transaction> getTransactionByPortfolioId(int portfolioId);
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
