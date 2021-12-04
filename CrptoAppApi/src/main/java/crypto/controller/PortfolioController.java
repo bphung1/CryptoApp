@@ -10,10 +10,7 @@ public class PortfolioController  extends ControllerBase{
     public Portfolio getPortfolio(@PathVariable int userId) {
         return null;
     }
-    @PostMapping("/{userId}/createportfolio")
-    public Portfolio createPortfolio(@PathVariable int userId) {
-        return null;
-    }
+
     @PostMapping("/{userId}/updatenoninvestedbalance")
     public Portfolio updateNonInvestedBalanceInPortfolio(@PathVariable int userId) {
         return null;
