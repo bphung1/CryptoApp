@@ -4,12 +4,14 @@ import crypto.entity.Portfolio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class PortfolioDaoImpl implements PortfolioDao{
     @Autowired
     JdbcTemplate jdbc;
@@ -70,16 +72,16 @@ public class PortfolioDaoImpl implements PortfolioDao{
     public Portfolio createPortfolio(Portfolio portfolio) {
         final String INSERT_PORTFOLIO = "INSERT INTO Portfolio (userId,investedTotalBalance,nonInvestedBalance)" + "VALUES(?,?,?);";
         jdbc.update(INSERT_PORTFOLIO,portfolio.getUserId(),portfolio.getInvestedTotalBalance().toString(),portfolio.getNonInvestedBalance());
-        int newId = jdbc.queryForObject("SELECT MAX(portfolioId) FROM Portfolio", Integer.class);
+        int newId = jdbc.queryForObject("SELECT MAX(portfolioId) FROM Portfolio;", Integer.class);
         portfolio.setPortfolioId(newId);
 
         return portfolio;
     }
 
     @Override
-    public List<Portfolio> getPortfolio(int userId) {
+    public Portfolio getPortfolio(int userId) {
         final String GET_PORTFOLIO = "SELECT * from Portfolio where userId = ?;";
-        return jdbc.query(GET_PORTFOLIO, new portfolioMapper(), userId);
+        return jdbc.queryForObject(GET_PORTFOLIO, new portfolioMapper(), userId);
     }
 
     @Override

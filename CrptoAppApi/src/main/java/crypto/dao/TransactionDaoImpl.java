@@ -5,6 +5,7 @@ import crypto.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+@Component
 public class TransactionDaoImpl implements TransactionDao {
 
     @Autowired
@@ -20,7 +22,7 @@ public class TransactionDaoImpl implements TransactionDao {
     @Override
     @Transactional
     public Transaction addTransaction(Transaction transaction) {
-        final String INSERT_TRANSACTION = "INSERT INTO transaction(portfolioId, timestamp, transactionAmount, " +
+        final String INSERT_TRANSACTION = "INSERT INTO Transaction(portfolioId, timestamp, transactionAmount, " +
                                             "cryptoName, transactionType, shares) VALUES (?,?,?,?,?,?);";
 
         jdbc.update(INSERT_TRANSACTION,
@@ -40,7 +42,7 @@ public class TransactionDaoImpl implements TransactionDao {
     @Override
     public List<Transaction> getTransactionsForPortfolio(int portfolioId) {
 
-        final String SELECT_TRANSACTIONS_FOR_PORTFOLIO = "SELECT * FROM transactions "
+        final String SELECT_TRANSACTIONS_FOR_PORTFOLIO = "SELECT * FROM Transaction "
                 + "WHERE portfolioId = ?;";
 
         List<Transaction> transactions = jdbc.query(SELECT_TRANSACTIONS_FOR_PORTFOLIO, new TransactionMapper(), portfolioId);
