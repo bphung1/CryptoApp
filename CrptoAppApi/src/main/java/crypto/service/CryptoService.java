@@ -5,6 +5,8 @@ import crypto.entity.Portfolio;
 import crypto.entity.Transaction;
 import crypto.entity.User;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CryptoService {
@@ -15,8 +17,8 @@ public interface CryptoService {
     Portfolio getPortfolio(int userId);
     List<Transaction> getTransactionByPortfolioId(int portfolioId);
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
+    Transaction addTransaction(int portfolioId, Transaction transaction);
 
-    //add transaction
     //update portfolio for balance
     //add helper method for total invested balance and update portfolio total balance
 }

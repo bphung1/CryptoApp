@@ -85,10 +85,16 @@ public class PortfolioDaoImpl implements PortfolioDao{
     }
 
     @Override
-    public Portfolio updateNonInvestedBalance(Portfolio portfolio) {
-        final String UPDATE_NON_INVESTED_BALANCE_PORTFOLIO = "UPDATE Portfolio set nonInvestedBalance = ? where userId = ?;";
-        jdbc.update(UPDATE_NON_INVESTED_BALANCE_PORTFOLIO, portfolio.getNonInvestedBalance(),portfolio.getUserId());
+    public Portfolio updatePortfolioBalance(Portfolio portfolio) {
+        final String UPDATE_INVESTED_BALANCE_PORTFOLIO = "UPDATE Portfolio set investedTotalBalance = ? , nonInvestedBalance = ?  where userId = ?;";
+        jdbc.update(UPDATE_INVESTED_BALANCE_PORTFOLIO, portfolio.getInvestedTotalBalance(),portfolio.getNonInvestedBalance(),portfolio.getUserId());
         return portfolio;
+    }
+
+    @Override
+    public Portfolio getPortfolioById(int portfolioId) {
+        final String GET_PORTFOLIO_BY_ID = "SELECT * from Portfolio where portfolioId = ?;";
+        return jdbc.queryForObject(GET_PORTFOLIO_BY_ID,new portfolioMapper(),portfolioId);
     }
 
 

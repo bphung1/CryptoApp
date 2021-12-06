@@ -7,7 +7,10 @@ import java.util.List;
 public interface PortfolioDao {
     Portfolio createPortfolio(Portfolio portfolio);
     Portfolio getPortfolio (int userId);
-    Portfolio updateNonInvestedBalance(Portfolio portfolio);
+    Portfolio updatePortfolioBalance(Portfolio portfolio);
+    Portfolio getPortfolioById(int portfolioId);
+
+
 
 //    List<Transactions> getActiveInvestment (int portfolioId);
 //    Portfolio getInvestmentBalance (int userId);

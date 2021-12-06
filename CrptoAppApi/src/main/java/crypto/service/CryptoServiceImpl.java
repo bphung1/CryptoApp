@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -62,7 +63,7 @@ public class CryptoServiceImpl implements CryptoService{
             BigDecimal update = currentBal.add(BigDecimal.valueOf(deposit));
             user.setNonInvestedBalance(update);
         }
-            return portfolioDao.updateNonInvestedBalance(user);
+            return portfolioDao.updatePortfolioBalance(user);
     }
 
     @Override
@@ -71,10 +72,11 @@ public class CryptoServiceImpl implements CryptoService{
         BigDecimal currentBal = user.getNonInvestedBalance();
         if(amount > 0){
 
+            //we should check if currentBal - amount not less than 0 ?
             BigDecimal update = currentBal.subtract(BigDecimal.valueOf(amount));
             user.setNonInvestedBalance(update);
         }
-        return portfolioDao.updateNonInvestedBalance(user);
+        return portfolioDao.updatePortfolioBalance(user);
 
     }
 
@@ -106,5 +108,26 @@ public class CryptoServiceImpl implements CryptoService{
             return null;
         }
 
+    }
+
+    @Override
+    public Transaction addTransaction(int portfolioId,Transaction transaction) {
+       try {
+           Portfolio portfolio=portfolioDao.getPortfolioById(portfolioId);
+           if(portfolio.getNonInvestedBalance().compareTo(transaction.getTransactionAmount())>=0) {
+               transaction.setPortfolioId(portfolioId);
+               transaction.setTimestamp(LocalDateTime.now());
+               transactionDao.addTransaction(transaction);
+               BigDecimal newInvestedTotalBalance = portfolio.getInvestedTotalBalance().add(transaction.getTransactionAmount());
+               BigDecimal newNonInvestedBalance = portfolio.getNonInvestedBalance().subtract(transaction.getTransactionAmount());
+               portfolio.setInvestedTotalBalance(newInvestedTotalBalance);
+               portfolio.setNonInvestedBalance(newNonInvestedBalance);
+               portfolioDao.updatePortfolioBalance(portfolio);
+               return transaction;
+           }
+          return null;
+       }catch (DataAccessException | NullPointerException ex ){
+           return null;
+       }
     }
 }
