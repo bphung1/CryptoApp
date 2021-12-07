@@ -1,22 +1,38 @@
 package crypto.controller;
 
 import crypto.entity.Transaction;
+import crypto.service.CryptoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class TransactionController extends ControllerBase{
+
+    @Autowired
+    CryptoService service;
+
     @GetMapping("/{portfolioId}/transactions")
     public ResponseEntity<List<Transaction>> getTransactionsForPortfolio(@PathVariable int portfolioId) {
-        return null;
+        List<Transaction> transactions = service.getTransactionByPortfolioId(portfolioId);
+
+        if(transactions == null) {
+            return new ResponseEntity("Portfolio not found.", HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(transactions);
     }
 
     @PostMapping("/{portfolioId}/newtransaction")
     public ResponseEntity<Transaction> addTransaction(@PathVariable int portfolioId, @RequestBody Transaction transaction) {
-        return null;
+
+        Transaction createdTransaction = service.addTransaction(portfolioId, transaction);
+        if (createdTransaction == null) {
+            return new ResponseEntity("transaction was not created", HttpStatus.CONFLICT);
+        }
+        return ResponseEntity.ok(createdTransaction);
     }
 }
