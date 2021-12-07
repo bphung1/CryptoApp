@@ -15,10 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
 
 @Repository
 public class CryptoServiceImpl implements CryptoService{
@@ -142,10 +146,11 @@ public class CryptoServiceImpl implements CryptoService{
 
     private Crypto rateForCrypto(String symbol) {
         String url = "https://rest.coinapi.io/v1/exchangerate/" + symbol + "/USD";
+        String[] apiKeyAndValue = externalAPIKey();
 
         WebClient webClient = WebClient.builder()
                 .baseUrl(url)
-                .defaultHeader("X-CoinAPI-Key", "8099D6E8-EBCA-4742-B47D-639A52B6207B")
+                .defaultHeader(apiKeyAndValue[0], apiKeyAndValue[1])
                 .build();
 
         Crypto response = webClient.get()
@@ -154,6 +159,21 @@ public class CryptoServiceImpl implements CryptoService{
                 .block();
 
         return response;
+    }
+
+    private String[] externalAPIKey() {
+        try {
+            InputStream input = new FileInputStream("src/main/resources/externalAPI.properties");
+            Properties prop = new Properties();
+
+            prop.load(input);
+
+            String[] apiKeyAndValue = {prop.getProperty("keyName"), prop.getProperty("keyVal")};
+            return apiKeyAndValue;
+        } catch (IOException io) {
+            System.out.println(io);
+            return null;
+        }
     }
 
 }
