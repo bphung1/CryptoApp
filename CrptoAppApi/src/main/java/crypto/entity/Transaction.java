@@ -11,7 +11,7 @@ public class Transaction {
     private BigDecimal transactionAmount;
     private String cryptoName;
     private String transactionType;
-    private int shares;
+    private BigDecimal shares;
 
     public int getTransactionId() {
         return transactionId;
@@ -61,11 +61,11 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public int getShares() {
+    public BigDecimal getShares() {
         return shares;
     }
 
-    public void setShares(int shares) {
+    public void setShares(BigDecimal shares) {
         this.shares = shares;
     }
 

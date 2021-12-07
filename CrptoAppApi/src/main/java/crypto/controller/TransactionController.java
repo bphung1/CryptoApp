@@ -1,5 +1,6 @@
 package crypto.controller;
 
+import crypto.dto.Crypto;
 import crypto.entity.Transaction;
 import crypto.service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -35,4 +37,5 @@ public class TransactionController extends ControllerBase{
         }
         return ResponseEntity.ok(createdTransaction);
     }
+
 }

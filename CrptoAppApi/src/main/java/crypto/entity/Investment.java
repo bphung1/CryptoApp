@@ -8,7 +8,7 @@ public class Investment {
     private int portfolioId;
     private String cryptoName;
     private BigDecimal investedAmount;
-    private int shares;
+    private BigDecimal shares;
 
     public int getInvestmentId() {
         return investmentId;
@@ -42,11 +42,11 @@ public class Investment {
         this.investedAmount = investedAmount;
     }
 
-    public int getShares() {
+    public BigDecimal getShares() {
         return shares;
     }
 
-    public void setShares(int shares) {
+    public void setShares(BigDecimal shares) {
         this.shares = shares;
     }
 
