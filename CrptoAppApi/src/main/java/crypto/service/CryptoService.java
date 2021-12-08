@@ -1,5 +1,6 @@
 package crypto.service;
 
+import crypto.dto.Crypto;
 import crypto.entity.Investment;
 import crypto.entity.Portfolio;
 import crypto.entity.Transaction;

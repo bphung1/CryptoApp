@@ -22,7 +22,7 @@ public class InvestmentDaoImpl implements InvestmentDao{
             investments.setPortfolioId(resultSet.getInt("portfolioId"));
             investments.setCryptoName(resultSet.getString("cryptoName"));
             investments.setInvestedAmount(resultSet.getBigDecimal("investedAmount"));
-            investments.setShares(resultSet.getInt("shares"));
+            investments.setShares(resultSet.getBigDecimal("shares"));
             return investments;
         }
     }

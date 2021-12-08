@@ -4,6 +4,7 @@ import crypto.dao.InvestmentDao;
 import crypto.dao.PortfolioDao;
 import crypto.dao.TransactionDao;
 import crypto.dao.UsersDao;
+import crypto.dto.Crypto;
 import crypto.entity.Investment;
 import crypto.entity.Portfolio;
 import crypto.entity.Transaction;
@@ -12,10 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
 
 @Repository
 public class CryptoServiceImpl implements CryptoService{
@@ -117,6 +124,12 @@ public class CryptoServiceImpl implements CryptoService{
            if(portfolio.getNonInvestedBalance().compareTo(transaction.getTransactionAmount())>=0) {
                transaction.setPortfolioId(portfolioId);
                transaction.setTimestamp(LocalDateTime.now());
+
+               Crypto crypt = rateForCrypto(transaction.getCryptoName());
+               BigDecimal convertBalanceToShare = transaction.getTransactionAmount()
+                       .divide(crypt.getRate(), 8, RoundingMode.HALF_DOWN);
+               transaction.setShares(convertBalanceToShare);
+
                transactionDao.addTransaction(transaction);
                BigDecimal newInvestedTotalBalance = portfolio.getInvestedTotalBalance().add(transaction.getTransactionAmount());
                BigDecimal newNonInvestedBalance = portfolio.getNonInvestedBalance().subtract(transaction.getTransactionAmount());
@@ -130,4 +143,37 @@ public class CryptoServiceImpl implements CryptoService{
            return null;
        }
     }
+
+    private Crypto rateForCrypto(String symbol) {
+        String url = "https://rest.coinapi.io/v1/exchangerate/" + symbol + "/USD";
+        String[] apiKeyAndValue = externalAPIKey();
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl(url)
+                .defaultHeader(apiKeyAndValue[0], apiKeyAndValue[1])
+                .build();
+
+        Crypto response = webClient.get()
+                .retrieve()
+                .bodyToMono(Crypto.class)
+                .block();
+
+        return response;
+    }
+
+    private String[] externalAPIKey() {
+        try {
+            InputStream input = new FileInputStream("src/main/resources/externalAPI.properties");
+            Properties prop = new Properties();
+
+            prop.load(input);
+
+            String[] apiKeyAndValue = {prop.getProperty("keyName"), prop.getProperty("keyVal")};
+            return apiKeyAndValue;
+        } catch (IOException io) {
+            System.out.println(io);
+            return null;
+        }
+    }
+
 }

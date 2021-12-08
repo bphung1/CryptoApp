@@ -61,7 +61,7 @@ public class TransactionDaoImpl implements TransactionDao {
             transaction.setTransactionAmount(rs.getBigDecimal("transactionAmount"));
             transaction.setCryptoName(rs.getString("cryptoName"));
             transaction.setTransactionType(rs.getString("transactionType"));
-            transaction.setShares(rs.getInt("shares"));
+            transaction.setShares(rs.getBigDecimal("shares"));
 
             return transaction;
 
