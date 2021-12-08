@@ -120,7 +120,7 @@ public class CryptoServiceImpl implements CryptoService{
     @Override
     public Transaction addTransaction(int portfolioId,Transaction transaction) {
        try {
-           Portfolio portfolio=portfolioDao.getPortfolioById(portfolioId);
+           Portfolio portfolio = portfolioDao.getPortfolioById(portfolioId);
            if(portfolio.getNonInvestedBalance().compareTo(transaction.getTransactionAmount())>=0) {
                transaction.setPortfolioId(portfolioId);
                transaction.setTimestamp(LocalDateTime.now());
@@ -131,17 +131,21 @@ public class CryptoServiceImpl implements CryptoService{
                transaction.setShares(convertBalanceToShare);
 
                transactionDao.addTransaction(transaction);
-               BigDecimal newInvestedTotalBalance = portfolio.getInvestedTotalBalance().add(transaction.getTransactionAmount());
-               BigDecimal newNonInvestedBalance = portfolio.getNonInvestedBalance().subtract(transaction.getTransactionAmount());
-               portfolio.setInvestedTotalBalance(newInvestedTotalBalance);
-               portfolio.setNonInvestedBalance(newNonInvestedBalance);
-               portfolioDao.updatePortfolioBalance(portfolio);
-               return transaction;
+               updatePortfolio(transaction, portfolio);
            }
-          return null;
+          return transaction;
        }catch (DataAccessException | NullPointerException ex ){
            return null;
        }
+    }
+
+    private Portfolio updatePortfolio(Transaction transaction, Portfolio portfolio) {
+        BigDecimal newInvestedTotalBalance = portfolio.getInvestedTotalBalance().add(transaction.getTransactionAmount());
+        BigDecimal newNonInvestedBalance = portfolio.getNonInvestedBalance().subtract(transaction.getTransactionAmount());
+        portfolio.setInvestedTotalBalance(newInvestedTotalBalance);
+        portfolio.setNonInvestedBalance(newNonInvestedBalance);
+        portfolioDao.updatePortfolioBalance(portfolio);
+        return portfolio;
     }
 
     private Crypto rateForCrypto(String symbol) {
