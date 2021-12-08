@@ -19,6 +19,7 @@ export class HomepageComponent implements OnInit {
 
   getUser() {
     this.service.getUser('someone', 'password').then(user => {
+      this.isLoaded = false;
       this.user = user;
       this.isLoaded = true;
       console.log(this.user)
