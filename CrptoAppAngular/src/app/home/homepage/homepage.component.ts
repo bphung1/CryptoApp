@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Agent } from 'src/app/api/agent';
 import { User } from 'src/app/model/user';
 
@@ -11,7 +12,7 @@ export class HomepageComponent implements OnInit {
   isLoaded = false;
   user: User;
 
-  constructor(private service: Agent) { }
+  constructor(private router: Router, private service: Agent) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -22,8 +23,11 @@ export class HomepageComponent implements OnInit {
       this.isLoaded = false;
       this.user = user;
       this.isLoaded = true;
-      console.log(this.user)
     });
+  }
+
+  login() {
+    this.router.navigate(['portfolio']);
   }
 
 }
