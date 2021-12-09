@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Portfolio } from "../model/portfolio";
+import { Transaction } from "../model/transaction";
 import { User } from "../model/user";
 
 @Injectable({
@@ -35,5 +36,11 @@ export class Agent {
         this.portfolioFromAPI = portfolio;
 
         return portfolio;
+    }
+    getTransaction(portfolioId: string | number): Promise<Transaction[]> {
+        return this.http.get<Transaction[]>(this.url + `/${portfolioId}/transactions`)
+        .toPromise();
+        
+        
     }
 }
