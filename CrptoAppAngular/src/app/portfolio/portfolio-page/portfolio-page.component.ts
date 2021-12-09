@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Agent } from 'src/app/api/agent';
 import { Portfolio } from 'src/app/model/portfolio';
 import { User } from 'src/app/model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portfolio-page',
@@ -13,19 +14,25 @@ export class PortfolioPageComponent implements OnInit {
   portfolio: Portfolio;
   isLoading = false;
 
-  constructor(private service: Agent) { }
+  constructor(private router: Router,private service: Agent) { }
 
   ngOnInit(): void {
     this.isLoading = false;
     this.service.userFromAPI
-    .then(user => this.user = user)
+    .then(user => {
+      this.user = user;
+    })
     .then(() => {
       this.service.getPortfolio(this.user.userid)
-        .then(portfolio => {
+        .then(portfolio =>{
           this.portfolio = portfolio;
           this.isLoading = true;
         })
     });
+  }
+
+  goToTransaction() {
+    this.router.navigate(['transaction']);
   }
 
 }
