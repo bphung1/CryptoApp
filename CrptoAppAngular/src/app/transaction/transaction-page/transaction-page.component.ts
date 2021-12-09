@@ -29,10 +29,10 @@ isLoaded = false;
       this.service.getTransaction(this.portfolio.portfolioId).then(transactions=>{
         this.transactions = transactions;
         this.isLoaded = true;
-        console.log(transactions);
+        console.log(this.transactions);
       })
     })
-    
+
   }
 
 }

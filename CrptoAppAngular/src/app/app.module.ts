@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { InvestmentModule } from './investment/investment.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TransactionModule } from './transaction/transaction.module';
     HttpClientModule,
     HomeModule,
     PortfolioModule,
-    TransactionModule
+    TransactionModule,
+    InvestmentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

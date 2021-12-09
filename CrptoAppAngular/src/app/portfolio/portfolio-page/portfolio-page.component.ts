@@ -35,4 +35,8 @@ export class PortfolioPageComponent implements OnInit {
     this.router.navigate(['transaction']);
   }
 
+  goToInvestment() {
+      this.router.navigate(['investment']);
+    }
+
 }
