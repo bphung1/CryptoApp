@@ -18,13 +18,13 @@ export class PortfolioPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = false;
     this.service.userFromAPI
-    .then(user => {
-      this.user = user;
-      this.isLoading = true;
-    })
+    .then(user => this.user = user)
     .then(() => {
       this.service.getPortfolio(this.user.userid)
-        .then(portfolio => this.portfolio = portfolio)
+        .then(portfolio => {
+          this.portfolio = portfolio;
+          this.isLoading = true;
+        })
     });
   }
 
