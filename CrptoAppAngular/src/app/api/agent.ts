@@ -18,11 +18,15 @@ export class Agent {
 
     //get user
     getUser(username: string | string, password: string | string): Promise<User> {
-        let user =  this.http.post<User>(this.url + '/login', {
+        let user = this.http.post<User>(this.url + '/login', {
             'username': username,
             'password': password
         })
-        .toPromise();
+        .toPromise()
+        .catch(error => {
+            console.error(error.error);
+            return undefined;
+        });
 
         this.userFromAPI = user;
 

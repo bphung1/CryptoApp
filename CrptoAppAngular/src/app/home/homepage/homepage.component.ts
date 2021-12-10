@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Agent } from 'src/app/api/agent';
 import { User } from 'src/app/model/user';
@@ -10,24 +11,38 @@ import { User } from 'src/app/model/user';
 })
 export class HomepageComponent implements OnInit {
   isLoaded = false;
+  user$: Promise<User>;
   user: User;
+
+  @ViewChild('f', { static: false }) signupForm: NgForm;
 
   constructor(private router: Router, private service: Agent) { }
 
   ngOnInit(): void {
-    this.getUser();
   }
 
-  getUser() {
-    this.service.getUser('someone', 'password').then(user => {
-      this.isLoaded = false;
-      this.user = user;
-      this.isLoaded = true;
-    });
+  getUser(username: string, password: string) {
+    this.user$ = this.service.getUser(username, password);
   }
 
   login() {
-    this.router.navigate(['portfolio']);
+    let userInputUsername = this.signupForm.value.userData.username;
+    let userInputPassword = this.signupForm.value.userData.password;
+
+    this.getUser(userInputUsername, userInputPassword);
+    
+    this.user$.then(user => {
+      this.isLoaded = false;
+      this.user = user;
+      if (this.user) {
+        this.router.navigate(['portfolio']);
+      } else {
+        alert('Incorrect User/Password');
+        this.signupForm.reset();
+      }
+      this.isLoaded = true;
+    });
+
   }
 
 }
