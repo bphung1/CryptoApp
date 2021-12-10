@@ -4,4 +4,5 @@ export interface Investment {
   cryptoName : string;
   investedAmount : number;
   shares : number;
+  cryptoRate: number;
 }

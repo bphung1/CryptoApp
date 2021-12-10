@@ -41,8 +41,6 @@ export class Agent {
     getTransaction(portfolioId: string | number): Promise<Transaction[]> {
         return this.http.get<Transaction[]>(this.url + `/${portfolioId}/transactions`)
         .toPromise();
-
-
     }
 
     getInvestment(portfolioId: string | number): Promise<Investment[]> {

@@ -18,15 +18,15 @@ isLoaded = false;
 
   ngOnInit(): void {
     this.getTransactionForPortfolio();
-
   }
+  
   getTransactionForPortfolio(){
     this.isLoaded = false;
     this.service.portfolioFromAPI.then(portfolio=>{
       this.portfolio = portfolio;
     })
     .then(()=>{
-      this.service.getTransaction(this.portfolio.portfolioId).then(transactions=>{
+      this.service.getTransaction(this.portfolio.portfolioId).then(transactions => {
         this.transactions = transactions;
         this.isLoaded = true;
         console.log(this.transactions);
