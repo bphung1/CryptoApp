@@ -23,13 +23,14 @@ public class InvestmentDaoImpl implements InvestmentDao{
             investments.setCryptoName(resultSet.getString("cryptoName"));
             investments.setInvestedAmount(resultSet.getBigDecimal("investedAmount"));
             investments.setShares(resultSet.getBigDecimal("shares"));
+            investments.setCryptoRate(resultSet.getBigDecimal("cryptoRate"));
             return investments;
         }
     }
 
     @Override
     public List<Investment> getAllInvestments(int portfolioId) throws DataAccessException {
-        final String SELECT_Investment = "SELECT * FROM Investment where portfolioId=?;";
+        final String SELECT_Investment = "SELECT * FROM Investment where portfolioId = ?;";
         return jdbcTemplate.query(SELECT_Investment, new investmentMapper(),portfolioId);
     }
 }

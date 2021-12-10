@@ -131,6 +131,7 @@ public class CryptoServiceImpl implements CryptoService{
                BigDecimal convertBalanceToShare = transaction.getTransactionAmount()
                        .divide(crypt.getRate(), 8, RoundingMode.HALF_DOWN);
                transaction.setShares(convertBalanceToShare);
+               transaction.setCryptoRate(crypt.getRate().setScale(8, RoundingMode.HALF_DOWN));
 
                transactionDao.addTransaction(transaction);
                updatePortfolio(transaction, portfolio);
