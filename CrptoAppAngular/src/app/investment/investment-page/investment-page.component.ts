@@ -3,6 +3,7 @@ import { Portfolio } from 'src/app/model/portfolio';
 import { Investment } from 'src/app/model/investment';
 import { Agent } from 'src/app/api/agent';
 
+
 @Component({
   selector: 'app-investment-page',
   templateUrl: './investment-page.component.html',
@@ -15,7 +16,7 @@ investments : Investment[];
 isLoaded = false;
 
   constructor(private service: Agent) {}
-  results=0;
+  results;
    total=0;    
    value; 
    values;
@@ -50,24 +51,22 @@ isLoaded = false;
        console.log(this.total) 
   }
 }
-find(investments){
-  let map = this.investments.reduce((prev, next) =>{
-    if (next.cryptoName in prev) {
-      prev[next.cryptoName].investedAmount += next.investedAmount;
-    } else {
-       prev[next.cryptoName] = next;
-    }
-    return prev;
-  }, {});
-  
-  let results = Object.keys(map).map(cryptoName => map[cryptoName]);
-  
-  console.log(results);
 
+listOfInvestments= new Map();
+investmentstwo:Investment[];
+find(){
+  // let investments = this.service.getInvestment(this.portfolio.portfolioId).then(inv=> this.investmentstwo=inv)
+  // for(let i in this.investmentstwo){
+  //   console.log(typeof i )
+
+  }
+
+  
+  
 }
 
 
 
 
 
-}
+

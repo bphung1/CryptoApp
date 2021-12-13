@@ -9,7 +9,7 @@
     <tr>
         <th scope="col">investmentId</th>
         <th scope="col">portfolioId</th>
-        <th scope="col">cyyptoName</th>
+        <th scope="col">cryptoName</th>
         <th scope="col">investedAmount</th>
         <th scope="col">shares</th>
         <th scope="col">cryptoRate</th>
@@ -36,9 +36,13 @@
    
       </tr> 
     </tbody>
+
 </table> 
-   
+   <button (click)='find()'>Find</button>
 </div>
+
+
+
 <!-- var result = [];
 this.investments.reduce(function(res, value) {
   if (!res[investments.cryptoName]) {
@@ -51,3 +55,18 @@ this.investments.reduce(function(res, value) {
 }, {});
 
 console.log(this.results) -->
+
+
+
+<!-- let map = this.investments.reduce((prev, next) =>{
+    if (next.cryptoName in prev) {
+      prev[next.cryptoName].investedAmount += next.investedAmount;
+    } else {
+       prev[next.cryptoName] = next;
+    }
+    return prev;
+  }, {});
+  
+  let results = Object.keys(map).map(cryptoName => map[cryptoName]);
+  
+  console.log(results); -->
