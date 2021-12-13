@@ -16,10 +16,10 @@ investments : Investment[];
 isLoaded = false;
 
   constructor(private service: Agent) {}
-  results;
+  filteredInvestments = new Map<string, number[]>();
    total=0;    
    value; 
-   values;
+   
   ngOnInit(): void {
     this.getInvestmentByPortfolio();
   }
@@ -35,6 +35,7 @@ isLoaded = false;
         this.investments = investments;
          this.findsum(this.investments); 
         this.isLoaded = true;
+        this.filterInvestments();
         console.log(this.investments);
       })
     })
@@ -52,14 +53,31 @@ isLoaded = false;
   }
 }
 
-listOfInvestments= new Map();
-investmentstwo:Investment[];
-find(){
-  // let investments = this.service.getInvestment(this.portfolio.portfolioId).then(inv=> this.investmentstwo=inv)
-  // for(let i in this.investmentstwo){
-  //   console.log(typeof i )
+filterInvestments() {
+
+  console.log("test test");
+  console.log(this.investments);
+
+  //ABOVE BUT BETTER
+  let usedCryptNames = new Set<string>(); //MAKE SET OF CRYPTONAMES
+  for (let currInvest of this.investments) {
+      usedCryptNames.add(currInvest.cryptoName);
+  }
+
+  for(let name of usedCryptNames) {
+
+      let investmentsForCrypto = this.investments.filter(investment => investment.cryptoName == name);
+
+      let investAmtForCrypto = investmentsForCrypto.reduce((investAmtSum, currInv) => investAmtSum + currInv.investedAmount, 0);
+      let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
+
+      console.log(name + " : " + investAmtForCrypto + " : " + sharesForCrypto)
+
+      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto]);
 
   }
+
+}
 
   
   

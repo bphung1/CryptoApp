@@ -7,38 +7,31 @@
 <table class="table" id='tab'>
     <thead>
     <tr>
-        <th scope="col">investmentId</th>
-        <th scope="col">portfolioId</th>
+      
         <th scope="col">cryptoName</th>
         <th scope="col">investedAmount</th>
         <th scope="col">shares</th>
-        <th scope="col">cryptoRate</th>
+        
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let inv of investments;">
-        <td>{{ inv.investmentId }}</td>
-        <td>{{ inv.portfolioId }}</td>
-        <td>{{ inv.cryptoName }}</td>
-        <td>{{ inv.investedAmount }}</td>
-        <td>{{ inv.shares }}</td>
-        <td>{{ inv.cryptoRate }}</td>
+    <tr *ngFor="let mergedInvestment of filteredInvestments | keyvalue">
+        <!-- <td>{{ inv.investmentId }}</td>
+        <td>{{ inv.portfolioId }}</td> -->
+        <td> {{mergedInvestment.key}}</td>
+        <td>{{mergedInvestment.value[0]}}</td>
+        <td>{{mergedInvestment.value[1]}}</td>
+        <!-- <td>{{ inv.cryptoRate }}</td> -->
     </tr>
     <tr>  
         <td colspan="4"></td>  
         <td colspan="1"><b>TotalInvestedAmount:</b> </td>  
         <td colspan="1"><b>${{total}}</b> </td>  
       </tr> 
-      <tr>  
-        <td colspan="4"></td>  
-        <td colspan="1"><b>Result:</b> </td>  
-        <td colspan="1"><b>${{results}}</b> </td>  
-   
-      </tr> 
+
     </tbody>
 
 </table> 
-   <button (click)='find()'>Find</button>
 </div>
 
 
