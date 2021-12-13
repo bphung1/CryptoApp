@@ -1,1 +1,53 @@
-<p>investment-page works!</p>
+<div class="container">
+   
+    
+<h1>Investments</h1>
+<div class="d-flex justify-content-center">
+</div>
+<table class="table" id='tab'>
+    <thead>
+    <tr>
+        <th scope="col">investmentId</th>
+        <th scope="col">portfolioId</th>
+        <th scope="col">cyyptoName</th>
+        <th scope="col">investedAmount</th>
+        <th scope="col">shares</th>
+        <th scope="col">cryptoRate</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let inv of investments;">
+        <td>{{ inv.investmentId }}</td>
+        <td>{{ inv.portfolioId }}</td>
+        <td>{{ inv.cryptoName }}</td>
+        <td>{{ inv.investedAmount }}</td>
+        <td>{{ inv.shares }}</td>
+        <td>{{ inv.cryptoRate }}</td>
+    </tr>
+    <tr>  
+        <td colspan="4"></td>  
+        <td colspan="1"><b>TotalInvestedAmount:</b> </td>  
+        <td colspan="1"><b>${{total}}</b> </td>  
+      </tr> 
+      <tr>  
+        <td colspan="4"></td>  
+        <td colspan="1"><b>Result:</b> </td>  
+        <td colspan="1"><b>${{results}}</b> </td>  
+   
+      </tr> 
+    </tbody>
+</table> 
+   
+</div>
+<!-- var result = [];
+this.investments.reduce(function(res, value) {
+  if (!res[investments.cryptoName]) {
+    res[investments.cryptoName] = { Name: investments.cryptoName, investedAmount: 0 };
+    result.push(res[investments.cryptoName])
+  }
+  res[investments.cryptoName].investedAmount += value.investedAmount;
+  return res;
+  
+}, {});
+
+console.log(this.results) -->

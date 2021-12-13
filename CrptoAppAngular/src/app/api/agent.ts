@@ -51,4 +51,5 @@ export class Agent {
         return this.http.get<Investment[]>(this.url + `/getInvestments/${portfolioId}`)
             .toPromise();
     }
+    
 }
