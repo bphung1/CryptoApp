@@ -139,6 +139,7 @@ public class CryptoServiceImpl implements CryptoService{
               investment.setInvestedAmount(transaction.getTransactionAmount());
               investmentDao.addInvestment(portfolioId,investment);
 
+
                transaction.setShares(convertBalanceToShare);
                transaction.setCryptoRate(crypt.getRate().setScale(8, RoundingMode.HALF_DOWN));
                transactionDao.addTransaction(transaction);
