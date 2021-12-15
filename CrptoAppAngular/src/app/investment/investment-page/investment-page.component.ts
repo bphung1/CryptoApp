@@ -20,7 +20,19 @@ isLoaded = false;
   filteredInvestments = new Map<string, number[]>();
    
   ngOnInit(): void {
-    this.getInvestmentByPortfolio();
+    this.stayLoggedInForTestingPurpose();
+  }
+  
+  //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getInvestmentByPortfolio();
+  stayLoggedInForTestingPurpose() {
+    this.isLoaded = false;
+    this.service.getUser('someone', 'password')
+      .then(user => {
+        this.service.getPortfolio(user.userid).then(portfolio => {
+          this.portfolio = portfolio;
+          this.getInvestmentByPortfolio();
+        });
+      })
   }
 
   getInvestmentByPortfolio() {
