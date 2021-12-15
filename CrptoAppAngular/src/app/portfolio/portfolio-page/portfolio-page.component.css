@@ -1,0 +1,36 @@
+
+
+.hidenform{
+    display: none;
+}
+
+.mainForm{
+    background-image: linear-gradient( 
+        135deg, rgb(83, 168, 238) 0%, rgb(148, 195, 207) 69%, rgb(188, 231, 236) 89% ) !important;
+}
+
+
+
+.divCenter{
+    margin: auto;
+    width: 50%;
+    padding: 45px;
+    text-align: center;
+}
+
+.divClosed{
+    padding: 0px;
+}
+
+.depositDiv{
+    margin: auto;
+    width: 50%;
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.withdrawButton {
+    margin-left: 10px;
+}
+

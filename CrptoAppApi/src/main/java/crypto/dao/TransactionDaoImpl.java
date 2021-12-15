@@ -23,7 +23,7 @@ public class TransactionDaoImpl implements TransactionDao {
     @Transactional
     public Transaction addTransaction(Transaction transaction) {
         final String INSERT_TRANSACTION = "INSERT INTO Transaction(portfolioId, timestamp, transactionAmount, " +
-                                            "cryptoName, transactionType, shares) VALUES (?,?,?,?,?,?);";
+                                            "cryptoName, transactionType, shares, cryptoRate) VALUES (?,?,?,?,?,?,?);";
 
         jdbc.update(INSERT_TRANSACTION,
                 transaction.getPortfolioId(),
@@ -31,7 +31,9 @@ public class TransactionDaoImpl implements TransactionDao {
                 transaction.getTransactionAmount(),
                 transaction.getCryptoName(),
                 transaction.getTransactionType(),
-                transaction.getShares());
+                transaction.getShares(),
+                transaction.getCryptoRate()
+        );
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         transaction.setTransactionId(newId);
@@ -62,6 +64,7 @@ public class TransactionDaoImpl implements TransactionDao {
             transaction.setCryptoName(rs.getString("cryptoName"));
             transaction.setTransactionType(rs.getString("transactionType"));
             transaction.setShares(rs.getBigDecimal("shares"));
+            transaction.setCryptoRate(rs.getBigDecimal("cryptoRate"));
 
             return transaction;
 

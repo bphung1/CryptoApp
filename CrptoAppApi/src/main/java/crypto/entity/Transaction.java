@@ -12,6 +12,7 @@ public class Transaction {
     private String cryptoName;
     private String transactionType;
     private BigDecimal shares;
+    private BigDecimal cryptoRate;
 
     public int getTransactionId() {
         return transactionId;
@@ -69,16 +70,24 @@ public class Transaction {
         this.shares = shares;
     }
 
+    public BigDecimal getCryptoRate() {
+        return cryptoRate;
+    }
+
+    public void setCryptoRate(BigDecimal cryptoRate) {
+        this.cryptoRate = cryptoRate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return transactionId == that.transactionId && portfolioId == that.portfolioId && shares == that.shares && Objects.equals(timestamp, that.timestamp) && Objects.equals(transactionAmount, that.transactionAmount) && Objects.equals(cryptoName, that.cryptoName) && Objects.equals(transactionType, that.transactionType);
+        return transactionId == that.transactionId && portfolioId == that.portfolioId && Objects.equals(timestamp, that.timestamp) && Objects.equals(transactionAmount, that.transactionAmount) && Objects.equals(cryptoName, that.cryptoName) && Objects.equals(transactionType, that.transactionType) && Objects.equals(shares, that.shares) && Objects.equals(cryptoRate, that.cryptoRate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionId, portfolioId, timestamp, transactionAmount, cryptoName, transactionType, shares);
+        return Objects.hash(transactionId, portfolioId, timestamp, transactionAmount, cryptoName, transactionType, shares, cryptoRate);
     }
 }

@@ -77,7 +77,7 @@ public class CryptoServiceImpl implements CryptoService{
     public Portfolio withdrawFromNonInvBal(int userId, double amount) {
         Portfolio user = portfolioDao.getPortfolio(userId);
         BigDecimal currentBal = user.getNonInvestedBalance();
-        if(amount > 0){
+        if(amount > 0 && currentBal.compareTo(BigDecimal.valueOf(amount)) >= 0){
 
             //we should check if currentBal - amount not less than 0 ?
             BigDecimal update = currentBal.subtract(BigDecimal.valueOf(amount));
@@ -121,19 +121,32 @@ public class CryptoServiceImpl implements CryptoService{
     public Transaction addTransaction(int portfolioId,Transaction transaction) {
        try {
            Portfolio portfolio = portfolioDao.getPortfolioById(portfolioId);
-           if(portfolio.getNonInvestedBalance().compareTo(transaction.getTransactionAmount())>=0) {
+           if(portfolio.getNonInvestedBalance().compareTo(transaction.getTransactionAmount()) >= 0 &&
+                transaction.getTransactionAmount().compareTo(BigDecimal.valueOf(0)) > 0
+           ) {
                transaction.setPortfolioId(portfolioId);
                transaction.setTimestamp(LocalDateTime.now());
-
                Crypto crypt = rateForCrypto(transaction.getCryptoName());
+
                BigDecimal convertBalanceToShare = transaction.getTransactionAmount()
                        .divide(crypt.getRate(), 8, RoundingMode.HALF_DOWN);
-               transaction.setShares(convertBalanceToShare);
 
+              Investment investment=new Investment();
+              investment.setPortfolioId(portfolioId);
+              investment.setShares(convertBalanceToShare);
+              investment.setCryptoName(transaction.getCryptoName());
+              investment.setCryptoRate(crypt.getRate().setScale(8,RoundingMode.HALF_DOWN));
+              investment.setInvestedAmount(transaction.getTransactionAmount());
+              investmentDao.addInvestment(portfolioId,investment);
+
+
+               transaction.setShares(convertBalanceToShare);
+               transaction.setCryptoRate(crypt.getRate().setScale(8, RoundingMode.HALF_DOWN));
                transactionDao.addTransaction(transaction);
                updatePortfolio(transaction, portfolio);
+               return transaction;
            }
-          return transaction;
+           return null;
        }catch (DataAccessException | NullPointerException ex ){
            return null;
        }
