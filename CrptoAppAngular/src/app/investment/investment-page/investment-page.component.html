@@ -1,1 +1,65 @@
-<p>investment-page works!</p>
+<div class="container">
+   
+    
+<h1>Investments</h1>
+<div class="d-flex justify-content-center">
+</div>
+<table class="table" id='tab'>
+    <thead>
+    <tr>
+      
+        <th scope="col">cryptoName</th>
+        <th scope="col">investedAmount</th>
+        <th scope="col">shares</th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mergedInvestment of filteredInvestments | keyvalue">
+        <!-- <td>{{ inv.investmentId }}</td>
+        <td>{{ inv.portfolioId }}</td> -->
+        <td> {{mergedInvestment.key}}</td>
+        <td>{{mergedInvestment.value[0]}}</td>
+        <td>{{mergedInvestment.value[1]}}</td>
+        <!-- <td>{{ inv.cryptoRate }}</td> -->
+    </tr>
+    <tr>  
+        <td colspan="4"></td>  
+        <td colspan="1"><b>TotalInvestedAmount:</b> </td>  
+        <td colspan="1"><b>${{total}}</b> </td>  
+      </tr> 
+
+    </tbody>
+
+</table> 
+</div>
+
+
+
+<!-- var result = [];
+this.investments.reduce(function(res, value) {
+  if (!res[investments.cryptoName]) {
+    res[investments.cryptoName] = { Name: investments.cryptoName, investedAmount: 0 };
+    result.push(res[investments.cryptoName])
+  }
+  res[investments.cryptoName].investedAmount += value.investedAmount;
+  return res;
+  
+}, {});
+
+console.log(this.results) -->
+
+
+
+<!-- let map = this.investments.reduce((prev, next) =>{
+    if (next.cryptoName in prev) {
+      prev[next.cryptoName].investedAmount += next.investedAmount;
+    } else {
+       prev[next.cryptoName] = next;
+    }
+    return prev;
+  }, {});
+  
+  let results = Object.keys(map).map(cryptoName => map[cryptoName]);
+  
+  console.log(results); -->
