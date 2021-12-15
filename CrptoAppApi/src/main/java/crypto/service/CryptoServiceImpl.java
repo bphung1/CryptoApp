@@ -126,13 +126,22 @@ public class CryptoServiceImpl implements CryptoService{
            ) {
                transaction.setPortfolioId(portfolioId);
                transaction.setTimestamp(LocalDateTime.now());
-
                Crypto crypt = rateForCrypto(transaction.getCryptoName());
+
                BigDecimal convertBalanceToShare = transaction.getTransactionAmount()
                        .divide(crypt.getRate(), 8, RoundingMode.HALF_DOWN);
+
+              Investment investment=new Investment();
+              investment.setPortfolioId(portfolioId);
+              investment.setShares(convertBalanceToShare);
+              investment.setCryptoName(transaction.getCryptoName());
+              investment.setCryptoRate(crypt.getRate().setScale(8,RoundingMode.HALF_DOWN));
+              investment.setInvestedAmount(transaction.getTransactionAmount());
+              investmentDao.addInvestment(portfolioId,investment);
+
+
                transaction.setShares(convertBalanceToShare);
                transaction.setCryptoRate(crypt.getRate().setScale(8, RoundingMode.HALF_DOWN));
-
                transactionDao.addTransaction(transaction);
                updatePortfolio(transaction, portfolio);
                return transaction;

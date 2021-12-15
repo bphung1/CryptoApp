@@ -20,6 +20,7 @@ public interface CryptoService {
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
     Transaction addTransaction(int portfolioId, Transaction transaction);
 
+
     //update portfolio for balance
     //add helper method for total invested balance and update portfolio total balance
 }
