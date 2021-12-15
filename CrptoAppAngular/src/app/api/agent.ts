@@ -51,4 +51,22 @@ export class Agent {
         return this.http.get<Investment[]>(this.url + `/getInvestments/${portfolioId}`)
             .toPromise();
     }
+
+    deposit(amount: number,userId: string | number): Promise<Portfolio>{
+     let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/deposit`,{
+        'value':amount
+     })
+     .toPromise();
+     this.portfolioFromAPI=portfolio;
+     return portfolio;
+    }
+
+    withdraw(amount: number,userId: string | number){
+        let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/withdraw`,{
+            'value':amount
+         })
+         .toPromise();
+         this.portfolioFromAPI=portfolio;
+         return portfolio;
+    }
 }

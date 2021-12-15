@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Agent } from 'src/app/api/agent';
 import { Portfolio } from 'src/app/model/portfolio';
 import { User } from 'src/app/model/user';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-portfolio-page',
@@ -13,6 +14,12 @@ export class PortfolioPageComponent implements OnInit {
   user: User;
   portfolio: Portfolio;
   isLoading = false;
+  hideIt=true;
+  operation:string;
+  amount=0;
+  btnStyle="divClosed";
+  
+
 
   constructor(private router: Router,private service: Agent) { }
 
@@ -38,5 +45,48 @@ export class PortfolioPageComponent implements OnInit {
   goToInvestment() {
       this.router.navigate(['investment']);
     }
+
+    onSubmit(){
+       if(this.operation.localeCompare("deposit")==0){
+         this.service.deposit(this.amount,this.user.userid).then(portfolio =>{
+          this.portfolio = portfolio;
+      })
+       }else{
+        this.service.withdraw(this.amount,this.user.userid).then(portfolio =>{
+          this.portfolio = portfolio;
+      })
+       }
+       this.amount=0;
+       this.hideIt=true;
+       
+    }
+
+  deposit(){
+    this.hideIt = !this.hideIt;
+    if(this.operation=="withdraw"){
+      this.hideIt=false;
+    }
+    if(!this.hideIt){
+      this.operation="deposit";
+      this.btnStyle="divCenter";
+     }else{
+      this.btnStyle="divClosed";
+    }
+
+  }
+
+  withdraw(){
+    this.hideIt = !this.hideIt;
+    if(this.operation=="deposit"){
+      this.hideIt=false;
+    }
+    if(!this.hideIt){
+     this.operation="withdraw";
+     this.btnStyle="divCenter";
+    }else{
+      this.btnStyle="divClosed";
+    }
+
+  }
 
 }
