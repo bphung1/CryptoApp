@@ -16,7 +16,7 @@ export class PortfolioPageComponent implements OnInit {
   isLoading = false;
   hideIt = true;
   operation: string;
-  amount = 0;
+  amount: number;
   btnStyle = "divClosed";
   nonInvestedIsClicked = false;
   investedIsClicked = false;
@@ -101,6 +101,7 @@ export class PortfolioPageComponent implements OnInit {
   }
 
   nonInvestOnClick() {
+    this.hideIt = true;
     this.nonInvestedIsClicked = !this.nonInvestedIsClicked;
   }
 

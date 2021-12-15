@@ -8,8 +8,8 @@
 </div>
 
 <div class="depositDiv" *ngIf="nonInvestedIsClicked">
-  <button class="btn btn-dark text-uppercase fw-bold " (click) = deposit()>Deposit</button>
-  <button class="btn btn-dark text-uppercase fw-bold" (click) = withdraw() >Withdraw</button>
+  <button class="btn btn-dark text-uppercase fw-bold " (click)='deposit()'>Deposit</button>
+  <button class="btn btn-dark text-uppercase fw-bold" (click)='withdraw()'>Withdraw</button>
 
   <div [ngClass]="[btnStyle]">
     <form #f="ngForm" (ngSubmit)="onSubmit()" [hidden] = "hideIt">
@@ -18,7 +18,7 @@
           <td>How much do you want to {{operation}}</td>
         </tr>
         <tr>
-          <input [(ngModel)]="amount" type="number" name="amount" min="0" class="form-control">
+          <input [(ngModel)]="amount" type="number" name="amount" min="0" placeholder="0" class="form-control">
         </tr>
         <tr>
           <button type="submit" class="btn btn-dark">Submit</button>
