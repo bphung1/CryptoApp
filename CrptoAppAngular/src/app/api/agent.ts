@@ -65,9 +65,9 @@ export class Agent {
     withdraw(amount: number,userId: string | number){
         let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/withdraw`,{
             'value':amount
-            })
-            .toPromise();
-            this.portfolioFromAPI=portfolio;
-            return portfolio;
+        })
+        .toPromise();
+        this.portfolioFromAPI=portfolio;
+        return portfolio;
     }
 }
