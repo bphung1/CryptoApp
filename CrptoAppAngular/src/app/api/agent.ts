@@ -4,6 +4,7 @@ import { Portfolio } from "../model/portfolio";
 import { Transaction } from "../model/transaction";
 import { User } from "../model/user";
 import { Investment } from "../model/investment";
+import { Crypto } from "../model/crypto";
 
 @Injectable({
     providedIn: 'root'
@@ -69,5 +70,13 @@ export class Agent {
         .toPromise();
         this.portfolioFromAPI=portfolio;
         return portfolio;
+    }
+
+    getCrypto(symbol: string | string){
+        return this.http.get<Crypto>(this.url + `/getCrypto/${symbol}`).toPromise()
+        .catch(error => {
+            console.error(error.error);
+            return undefined;
+        }); 
     }
 }

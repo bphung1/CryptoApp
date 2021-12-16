@@ -3,6 +3,7 @@ import { Portfolio } from 'src/app/model/portfolio';
 import { Investment } from 'src/app/model/investment';
 import { Agent } from 'src/app/api/agent';
 import { Router } from '@angular/router';
+import { Crypto } from 'src/app/model/crypto';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class InvestmentPageComponent implements OnInit {
 portfolio : Portfolio;
 investments : Investment[];
 isLoaded = false;
+cryptoRate: Crypto;
 
   constructor(private router: Router, private service: Agent) {}
   filteredInvestments = new Map<string, number[]>();
@@ -63,12 +65,16 @@ isLoaded = false;
         let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
 
         this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto]);
-
+        this.getCrypto(name)
     }
   }
 
   backToPortfolio() {
     this.router.navigate(['portfolio']);
+  }
+
+  getCrypto(symbol:string){
+     this.service.getCrypto(symbol).then(crypto => this.cryptoRate = crypto);
   }
 }
 
