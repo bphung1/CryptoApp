@@ -57,8 +57,8 @@ export class PortfolioPageComponent implements OnInit {
   }
 
   goToInvestment() {
-      this.router.navigate(['investment']);
-    }
+    this.router.navigate(['investment']);
+  }
 
   onSubmit(){
     if (this.operation.localeCompare("deposit") == 0){

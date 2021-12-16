@@ -35,10 +35,11 @@ isLoaded = false;
     })
 
   }
-  viewTransactions(){
+  viewTransactions() {
     this.service.getTransaction(this.portfolio.portfolioId);
   }
-  goToPortfolio(){
+
+  goToPortfolio() {
     this.route.navigate(['portfolio']);
   }
 
