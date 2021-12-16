@@ -42,6 +42,7 @@ export class Agent {
 
         return portfolio;
     }
+
     getTransaction(portfolioId: string | number): Promise<Transaction[]> {
         return this.http.get<Transaction[]>(this.url + `/${portfolioId}/transactions`)
         .toPromise();
@@ -49,24 +50,24 @@ export class Agent {
 
     getInvestment(portfolioId: string | number): Promise<Investment[]> {
         return this.http.get<Investment[]>(this.url + `/getInvestments/${portfolioId}`)
-            .toPromise();
+        .toPromise();
     }
 
     deposit(amount: number,userId: string | number): Promise<Portfolio>{
-     let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/deposit`,{
+        let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/deposit`,{
         'value':amount
-     })
-     .toPromise();
-     this.portfolioFromAPI=portfolio;
-     return portfolio;
+        })
+        .toPromise();
+        this.portfolioFromAPI=portfolio;
+        return portfolio;
     }
 
     withdraw(amount: number,userId: string | number){
         let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/withdraw`,{
             'value':amount
-         })
-         .toPromise();
-         this.portfolioFromAPI=portfolio;
-         return portfolio;
+        })
+        .toPromise();
+        this.portfolioFromAPI=portfolio;
+        return portfolio;
     }
 }

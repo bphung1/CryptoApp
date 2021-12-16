@@ -3,6 +3,7 @@ import { User } from 'src/app/model/user';
 import { Portfolio } from 'src/app/model/portfolio';
 import { Transaction } from 'src/app/model/transaction';
 import { Agent } from 'src/app/api/agent';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-page',
@@ -14,7 +15,7 @@ portfolio:Portfolio;
 transactions:Transaction[];
 isLoaded = false;
 
-  constructor(private service: Agent) { }
+  constructor(private service: Agent, private route:Router) { }
 
   ngOnInit(): void {
     this.getTransactionForPortfolio();
@@ -33,6 +34,13 @@ isLoaded = false;
       })
     })
 
+  }
+  viewTransactions() {
+    this.service.getTransaction(this.portfolio.portfolioId);
+  }
+
+  goToPortfolio() {
+    this.route.navigate(['portfolio']);
   }
 
 }
