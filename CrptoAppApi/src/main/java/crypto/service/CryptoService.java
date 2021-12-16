@@ -19,5 +19,6 @@ public interface CryptoService {
     List<Transaction> getTransactionByPortfolioId(int portfolioId);
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
     Transaction addTransaction(int portfolioId, Transaction transaction);
+    public Crypto rateForCrypto(String symbol);
 
 }

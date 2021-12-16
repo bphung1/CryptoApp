@@ -161,7 +161,8 @@ public class CryptoServiceImpl implements CryptoService{
         return portfolio;
     }
 
-    private Crypto rateForCrypto(String symbol) {
+    @Override
+    public Crypto rateForCrypto(String symbol) {
         String url = "https://rest.coinapi.io/v1/exchangerate/" + symbol + "/USD";
         String[] apiKeyAndValue = externalAPIKey();
 
