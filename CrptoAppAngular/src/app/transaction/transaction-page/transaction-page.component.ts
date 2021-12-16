@@ -34,5 +34,8 @@ isLoaded = false;
     })
 
   }
+  viewTransactions(){
+    this.service.getTransaction(this.portfolio.portfolioId);
+  }
 
 }
