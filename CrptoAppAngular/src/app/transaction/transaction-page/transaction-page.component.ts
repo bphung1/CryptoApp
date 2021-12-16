@@ -33,8 +33,8 @@ isLoaded = false;
         console.log(this.transactions);
       })
     })
-
   }
+  
   viewTransactions() {
     this.service.getTransaction(this.portfolio.portfolioId);
   }
@@ -42,5 +42,4 @@ isLoaded = false;
   goToPortfolio() {
     this.route.navigate(['portfolio']);
   }
-
 }
