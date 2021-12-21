@@ -13,10 +13,10 @@ import { Crypto } from 'src/app/model/crypto';
 })
 export class InvestmentPageComponent implements OnInit {
 
-portfolio : Portfolio;
-investments : Investment[];
-isLoaded = false;
-cryptoRate: Crypto;
+  portfolio : Portfolio;
+  investments : Investment[];
+  isLoaded = false;
+  cryptoRates: Crypto[];
 
   constructor(private router: Router, private service: Agent) {}
   filteredInvestments = new Map<string, number[]>();
@@ -45,8 +45,9 @@ cryptoRate: Crypto;
     .then(() => {
       this.service.getInvestment(this.portfolio.portfolioId).then(investments => {
         this.investments = investments;
-        this.isLoaded = true;
         this.filterInvestments();
+        this.getCryptos();
+        this.isLoaded = true;
       })
     })
   }
@@ -59,13 +60,13 @@ cryptoRate: Crypto;
 
     for(let name of usedCryptNames) {
 
-        let investmentsForCrypto = this.investments.filter(investment => investment.cryptoName == name);
+      let investmentsForCrypto = this.investments.filter(investment => investment.cryptoName == name);
 
-        let investAmtForCrypto = investmentsForCrypto.reduce((investAmtSum, currInv) => investAmtSum + currInv.investedAmount, 0);
-        let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
+      let investAmtForCrypto = investmentsForCrypto.reduce((investAmtSum, currInv) => investAmtSum + currInv.investedAmount, 0);
+      let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
+      this.getCrypto(name);
 
-        this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto]);
-        this.getCrypto(name)
+      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto]);
     }
   }
 
@@ -73,8 +74,16 @@ cryptoRate: Crypto;
     this.router.navigate(['portfolio']);
   }
 
-  getCrypto(symbol:string){
-     this.service.getCrypto(symbol).then(crypto => this.cryptoRate = crypto);
+  getCrypto(symbol: string) {
+    console.log(this.cryptoRates);
+  }
+
+  getCryptos() {
+    this.service.getCrypto()
+    .then(cryptos => {
+      this.cryptoRates = cryptos;
+      console.log(cryptos);
+    })
   }
 }
 

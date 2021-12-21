@@ -4,14 +4,13 @@ import crypto.dao.InvestmentDao;
 import crypto.dao.PortfolioDao;
 import crypto.dao.TransactionDao;
 import crypto.dao.UsersDao;
-import crypto.dto.Crypto;
+import crypto.dto.CoinMarkets;
 import crypto.entity.Investment;
 import crypto.entity.Portfolio;
 import crypto.entity.Transaction;
 import crypto.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -21,6 +20,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -126,22 +126,22 @@ public class CryptoServiceImpl implements CryptoService{
            ) {
                transaction.setPortfolioId(portfolioId);
                transaction.setTimestamp(LocalDateTime.now());
-               Crypto crypt = rateForCrypto(transaction.getCryptoName());
+               CoinMarkets crypt = getCrypto(transaction.getCryptoName());
 
                BigDecimal convertBalanceToShare = transaction.getTransactionAmount()
-                       .divide(crypt.getRate(), 8, RoundingMode.HALF_DOWN);
+                       .divide(crypt.getCurrent_price(), 8, RoundingMode.HALF_DOWN);
 
               Investment investment=new Investment();
               investment.setPortfolioId(portfolioId);
               investment.setShares(convertBalanceToShare);
               investment.setCryptoName(transaction.getCryptoName());
-              investment.setCryptoRate(crypt.getRate().setScale(8,RoundingMode.HALF_DOWN));
+              investment.setCryptoRate(crypt.getCurrent_price().setScale(8,RoundingMode.HALF_DOWN));
               investment.setInvestedAmount(transaction.getTransactionAmount());
               investmentDao.addInvestment(portfolioId,investment);
 
 
                transaction.setShares(convertBalanceToShare);
-               transaction.setCryptoRate(crypt.getRate().setScale(8, RoundingMode.HALF_DOWN));
+               transaction.setCryptoRate(crypt.getCurrent_price().setScale(8, RoundingMode.HALF_DOWN));
                transactionDao.addTransaction(transaction);
                updatePortfolio(transaction, portfolio);
                return transaction;
@@ -162,23 +162,36 @@ public class CryptoServiceImpl implements CryptoService{
     }
 
     @Override
-    public Crypto rateForCrypto(String symbol) {
-        String url = "https://rest.coinapi.io/v1/exchangerate/" + symbol + "/USD";
-        String[] apiKeyAndValue = externalAPIKey();
+    public List<CoinMarkets> rateForCrypto() {
+        String[] cryptoNames = {"bitcoin", "dogecoin", "ethereum", "litecoin", "cardano"};
+//        String[] cryptoNames = {"dogecoin"};
+
+        List<CoinMarkets> coinMarkets = new ArrayList<>();
+
+        for (String name : cryptoNames) {
+            coinMarkets.add(getCrypto(name));
+        }
+
+        return coinMarkets;
+    }
+
+    private CoinMarkets getCrypto(String symbol) {
+        String url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" +
+                symbol + "&order=market_cap_desc&per_page=100&page=1&sparkline=false";
 
         WebClient webClient = WebClient.builder()
                 .baseUrl(url)
-                .defaultHeader(apiKeyAndValue[0], apiKeyAndValue[1])
                 .build();
 
-        Crypto response = webClient.get()
+        CoinMarkets response = webClient.get()
                 .retrieve()
-                .bodyToMono(Crypto.class)
-                .block();
+                .bodyToFlux(CoinMarkets.class)
+                .blockLast();
 
         return response;
     }
 
+    //keep in case we need to change external API
     private String[] externalAPIKey() {
         try {
             InputStream input = new FileInputStream("src/main/resources/externalAPI.properties");

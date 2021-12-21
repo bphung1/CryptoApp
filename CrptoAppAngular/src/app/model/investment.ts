@@ -5,4 +5,5 @@ export interface Investment {
   investedAmount : number;
   shares : number;
   cryptoRate: number;
+  cryptoList: Crypto[];
 }

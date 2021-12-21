@@ -1,13 +1,11 @@
 package crypto.service;
 
-import crypto.dto.Crypto;
+import crypto.dto.CoinMarkets;
 import crypto.entity.Investment;
 import crypto.entity.Portfolio;
 import crypto.entity.Transaction;
 import crypto.entity.User;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CryptoService {
@@ -19,6 +17,6 @@ public interface CryptoService {
     List<Transaction> getTransactionByPortfolioId(int portfolioId);
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
     Transaction addTransaction(int portfolioId, Transaction transaction);
-    public Crypto rateForCrypto(String symbol);
+    List<CoinMarkets> rateForCrypto();
 
 }

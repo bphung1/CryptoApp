@@ -1,7 +1,7 @@
 package crypto.controller;
 
 
-import crypto.dto.Crypto;
+import crypto.dto.CoinMarkets;
 import crypto.entity.Investment;
 import crypto.service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ public class InvestmentsController extends ControllerBase {
         return ResponseEntity.ok(investmentList);
     }
 
-    @GetMapping("/getCrypto/{symbol}")
-    public ResponseEntity<Crypto> getCrypto(@PathVariable String symbol) {
+    @GetMapping("/getCryptos")
+    public ResponseEntity<List<CoinMarkets>> getCrypto() {
         try {
 
-            Crypto crypto = service.rateForCrypto(symbol);
+            List<CoinMarkets> coinMarkets = service.rateForCrypto();
 
-            return ResponseEntity.ok(crypto);
+            return ResponseEntity.ok(coinMarkets);
 
         } catch (Exception ex) {
             return new ResponseEntity("Crypto symbol does not exist", HttpStatus.NOT_FOUND);
