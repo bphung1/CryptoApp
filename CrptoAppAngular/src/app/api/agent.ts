@@ -59,21 +59,22 @@ export class Agent {
         'value':amount
         })
         .toPromise();
-        this.portfolioFromAPI=portfolio;
+        this.portfolioFromAPI = portfolio;
         return portfolio;
     }
 
-    withdraw(amount: number,userId: string | number){
+    withdraw(amount: number,userId: string | number): Promise<Portfolio> {
         let portfolio= this.http.put<Portfolio>(this.url + `/${userId}/withdraw`,{
             'value':amount
         })
         .toPromise();
-        this.portfolioFromAPI=portfolio;
+        this.portfolioFromAPI = portfolio;
         return portfolio;
     }
 
-    getCrypto(symbol: string | string){
-        return this.http.get<Crypto>(this.url + `/getCrypto/${symbol}`).toPromise()
+    getCrypto(): Promise<Crypto[]> {
+        return this.http.get<Crypto[]>(this.url + `/getCryptos`)
+        .toPromise()
         .catch(error => {
             console.error(error.error);
             return undefined;
