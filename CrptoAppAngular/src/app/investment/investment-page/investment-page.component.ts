@@ -45,7 +45,8 @@ export class InvestmentPageComponent implements OnInit {
     .then(() => {
       this.service.getInvestment(this.portfolio.portfolioId).then(investments => {
         this.investments = investments;
-        this.filterInvestments();
+      })
+      .then(() => {
         this.getCryptos();
         this.isLoaded = true;
       })
@@ -64,9 +65,9 @@ export class InvestmentPageComponent implements OnInit {
 
       let investAmtForCrypto = investmentsForCrypto.reduce((investAmtSum, currInv) => investAmtSum + currInv.investedAmount, 0);
       let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
-      this.getCrypto(name);
+      let currentRate = this.getCryptoByName(name);
 
-      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto]);
+      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto, currentRate]);
     }
   }
 
@@ -74,15 +75,22 @@ export class InvestmentPageComponent implements OnInit {
     this.router.navigate(['portfolio']);
   }
 
-  getCrypto(symbol: string) {
-    console.log(this.cryptoRates);
+  //use the list from getCryptos()
+  getCryptoByName(symbol: string): number {
+    for (let crypto of this.cryptoRates) {
+      if (crypto.id === symbol) {
+        return crypto.current_price;
+      }
+    }
+    return 0;
   }
 
+  //get everything from java API and save to a list
   getCryptos() {
     this.service.getCrypto()
     .then(cryptos => {
       this.cryptoRates = cryptos;
-      console.log(cryptos);
+      this.filterInvestments();
     })
   }
 }
