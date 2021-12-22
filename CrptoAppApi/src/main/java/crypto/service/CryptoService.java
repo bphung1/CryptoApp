@@ -16,7 +16,7 @@ public interface CryptoService {
     Portfolio getPortfolio(int userId);
     List<Transaction> getTransactionByPortfolioId(int portfolioId);
     List<Investment> getInvestmentsByPortfolioId(int portfolioId);
-    Transaction addTransaction(int portfolioId, Transaction transaction);
+    Transaction transactionForBuy(int portfolioId, Transaction transaction);
     List<CoinMarkets> rateForCrypto();
 
 }

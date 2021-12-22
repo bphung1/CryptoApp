@@ -24,7 +24,6 @@ public class InvestmentDaoImpl implements InvestmentDao{
             investments.setCryptoName(resultSet.getString("cryptoName"));
             investments.setInvestedAmount(resultSet.getBigDecimal("investedAmount"));
             investments.setShares(resultSet.getBigDecimal("shares"));
-            investments.setCryptoRate(resultSet.getBigDecimal("cryptoRate"));
             return investments;
         }
     }
@@ -35,15 +34,14 @@ public class InvestmentDaoImpl implements InvestmentDao{
         return jdbcTemplate.query(SELECT_Investment, new investmentMapper(),portfolioId);
     }
 
-
     @Override
     @Transactional
     public Investment addInvestment(int portfolioId, Investment investment) throws DataAccessException {
-        final String INSERT_NEW_INVESTMENT="INSERT INTO Investment(portfolioId,cryptoName,investedAmount,shares,cryptoRate)" +
-                "values (?,?,?,?,?);";
+        final String INSERT_NEW_INVESTMENT="INSERT INTO Investment(portfolioId, cryptoName, investedAmount, shares)" +
+                "values (?,?,?,?);";
         jdbcTemplate.update(INSERT_NEW_INVESTMENT,portfolioId,
-                investment.getCryptoName(),investment.getInvestedAmount(),investment.getShares(),investment.getCryptoRate());
-        int newId=jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
+                investment.getCryptoName(),investment.getInvestedAmount(),investment.getShares());
+        int newId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID();", Integer.class);
         investment.setInvestmentId(newId);
         return investment;
     }

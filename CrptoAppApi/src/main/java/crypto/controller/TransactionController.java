@@ -29,7 +29,7 @@ public class TransactionController extends ControllerBase{
     @PostMapping("/{portfolioId}/newtransaction")
     public ResponseEntity<Transaction> addTransaction(@PathVariable int portfolioId, @RequestBody Transaction transaction) {
 
-        Transaction createdTransaction = service.addTransaction(portfolioId, transaction);
+        Transaction createdTransaction = service.transactionForBuy(portfolioId, transaction);
         if (createdTransaction == null) {
             return new ResponseEntity("transaction was not created", HttpStatus.CONFLICT);
         }
