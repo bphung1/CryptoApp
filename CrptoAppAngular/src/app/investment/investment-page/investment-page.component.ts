@@ -67,7 +67,10 @@ export class InvestmentPageComponent implements OnInit {
       let sharesForCrypto = investmentsForCrypto.reduce((sharesSum, currInv) => sharesSum + currInv.shares, 0);
       let currentRate = this.getCryptoByName(name);
 
-      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto, currentRate]);
+      let currentReturn = currentRate * sharesForCrypto;      
+      let percentRateChange = ((currentReturn / investAmtForCrypto)-1)*100;
+      
+      this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto, currentRate,percentRateChange,currentReturn]);
     }
   }
 
