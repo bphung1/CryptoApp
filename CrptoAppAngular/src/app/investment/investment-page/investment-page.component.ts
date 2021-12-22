@@ -17,6 +17,7 @@ export class InvestmentPageComponent implements OnInit {
   investments : Investment[];
   isLoaded = false;
   cryptoRates: Crypto[];
+  totalReturn = 0;
 
   constructor(private router: Router, private service: Agent) {}
   filteredInvestments = new Map<string, number[]>();
@@ -54,7 +55,7 @@ export class InvestmentPageComponent implements OnInit {
   }
 
   filterInvestments() {
-    let usedCryptNames = new Set<string>(); 
+    let usedCryptNames = new Set<string>();
     for (let currInvest of this.investments) {
         usedCryptNames.add(currInvest.cryptoName);
     }
@@ -69,6 +70,7 @@ export class InvestmentPageComponent implements OnInit {
 
       let currentReturn = currentRate * sharesForCrypto;      
       let percentRateChange = ((currentReturn / investAmtForCrypto)-1)*100;
+      this.totalReturn += currentReturn;
       
       this.filteredInvestments.set(name, [investAmtForCrypto, sharesForCrypto, currentRate,percentRateChange,currentReturn]);
     }
