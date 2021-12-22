@@ -1,11 +1,16 @@
 td , th
 {
-    height: 50px; 
+    height: 50px;
     width: 50px;
 }
 
-#tab td , #tab th
+.headers, .dataTable
 {
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
+}
+
+.result
+{
+    text-align: right;
 }
