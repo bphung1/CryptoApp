@@ -35,6 +35,7 @@ public class TransactionController extends ControllerBase{
         }
         return ResponseEntity.ok(createdTransaction);
     }
+
     @PostMapping("/{portfolioId}/selltransaction")
     public ResponseEntity<Transaction> sellTransaction(@PathVariable int portfolioId, @RequestBody Transaction transaction) {
 
