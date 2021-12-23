@@ -35,5 +35,15 @@ public class TransactionController extends ControllerBase{
         }
         return ResponseEntity.ok(createdTransaction);
     }
+    @PostMapping("/{portfolioId}/selltransaction")
+    public ResponseEntity<Transaction> sellTransaction(@PathVariable int portfolioId, @RequestBody Transaction transaction) {
+
+        Transaction sellTransaction = service.transactionForSell(portfolioId, transaction);
+        if (sellTransaction == null) {
+            return new ResponseEntity("transaction was not created", HttpStatus.CONFLICT);
+        }
+        return ResponseEntity.ok(sellTransaction);
+    }
+
 
 }

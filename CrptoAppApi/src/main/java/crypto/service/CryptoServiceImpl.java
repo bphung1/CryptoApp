@@ -21,8 +21,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 @Repository
 public class CryptoServiceImpl implements CryptoService{
@@ -158,7 +160,93 @@ public class CryptoServiceImpl implements CryptoService{
 
     @Override
     public Transaction transactionForSell(int portfolioId, Transaction transaction) {
-        return null;
+
+        Investment investment =new Investment();
+        HashMap <Integer,BigDecimal> investments = new HashMap<>();
+        BigDecimal totalShares = new BigDecimal(0.00);
+        BigDecimal remainingShares = new BigDecimal(0.00);
+        try {
+            Portfolio portfolio = portfolioDao.getPortfolioById(portfolioId);
+
+            List<Investment> listInvestment = investmentDao.getAllInvestments(portfolioId);
+            List<Investment> filteredInvestment = listInvestment.stream().filter((p)-> p.getCryptoName().equalsIgnoreCase(transaction.getCryptoName())).collect(Collectors.toList());
+
+            CoinMarkets crypt = getCrypto(transaction.getCryptoName());
+            BigDecimal convertShareToBalance = transaction.getTransactionAmount()
+                    .multiply(crypt.getCurrent_price());
+
+            for(Investment x : filteredInvestment){
+            investments.put(x.getInvestmentId(),x.getShares());
+
+            for(Investment i : filteredInvestment) {
+                totalShares = totalShares.add(i.getShares());
+            }
+                                                                                                //check <=0 or ==0 if equals
+                if((transaction.getTransactionAmount().compareTo(totalShares) <= 0) &&                //transaction < totalShares
+                        transaction.getTransactionAmount().compareTo(BigDecimal.valueOf(0)) > 0 ){
+
+                    remainingShares = totalShares.subtract(transaction.getTransactionAmount());
+
+                if(investments.get(x.getInvestmentId()).compareTo(remainingShares) <= 0){              //map shares <= remaining shares
+
+                    Investment inv = deleteInvestment(x.getInvestmentId(),portfolioId,x.getShares(),transaction,crypt);
+                    investmentDao.deleteInvestment(inv);
+                    //next row -remainingShares, what is next row?
+                    // totalShares = totalShares.subtract(remainingShares);
+                    remainingShares = remainingShares.subtract(investments.get(x.getInvestmentId()));
+                    //   totalShares = totalShares.subtract(investments.get(x.getInvestmentId()));
+
+                }
+                else if(transaction.getTransactionAmount().compareTo(investments.get(x.getInvestmentId()))< 0){       //if transactionAmount < map value shares
+                    //update that row in db
+
+                    Investment completeInvestment = generateValuesForInvestments(investment, investment.getInvestmentId(), convertShareToBalance,remainingShares);
+                    investmentDao.updateInvestment(completeInvestment);
+                    updateInvestmentForSell(transaction,completeInvestment);
+                }
+
+                    Transaction completeTransaction = autoGenerateValues(transaction, portfolioId, transaction.getTransactionAmount(), crypt);
+                    transactionDao.addTransaction(completeTransaction);
+                    updatePortfolioForSell(transaction, portfolio);
+            return transaction;
+
+                }
+
+            }
+            return null;
+        }catch (DataAccessException | NullPointerException ex ){
+            return null;
+        }
+    }
+
+    private Investment updateInvestmentForSell(Transaction transaction, Investment investment) {
+        CoinMarkets crypt = getCrypto(transaction.getCryptoName());
+        BigDecimal converted= transaction.getTransactionAmount()
+                .multiply(crypt.getCurrent_price());
+
+
+        BigDecimal newInvestedShareAmount = investment.getShares().subtract(transaction.getTransactionAmount());
+        BigDecimal newInvestedAmount = investment.getInvestedAmount().subtract(converted);
+        investment.setShares(newInvestedShareAmount);
+        investment.setInvestedAmount(newInvestedAmount);
+        investmentDao.updateInvestment(investment);
+        return investment;
+    }
+
+
+    private Portfolio updatePortfolioForSell(Transaction transaction, Portfolio portfolio) {
+        CoinMarkets crypt = getCrypto(transaction.getCryptoName());
+        BigDecimal converted= transaction.getTransactionAmount()
+                .multiply(crypt.getCurrent_price());
+
+
+        BigDecimal newNonInvestedBalance = portfolio.getNonInvestedBalance().add(converted);
+        BigDecimal newInvestedBalance = portfolio.getInvestedTotalBalance().subtract(converted);
+        portfolio.setInvestedTotalBalance(newInvestedBalance);
+
+        portfolio.setNonInvestedBalance(newNonInvestedBalance);
+        portfolioDao.updatePortfolioBalance(portfolio);
+        return portfolio;
     }
 
     private CoinMarkets getCrypto(String symbol) {
@@ -186,12 +274,31 @@ public class CryptoServiceImpl implements CryptoService{
 
         return transaction;
     }
+    private Investment generateValuesForInvestments(Investment investment, int investmentId,
+                                           BigDecimal convertShareToBalance, BigDecimal shares) {
+        investment.setInvestmentId(investmentId);
+        investment.setInvestedAmount(convertShareToBalance);
+        investment.setShares(shares);
+
+        return investment;
+    }
 
     private Investment createInvestment(int portfolioId, BigDecimal convertBalanceToShare,
                                         Transaction transaction, CoinMarkets crypt) {
         Investment investment = new Investment();
         investment.setPortfolioId(portfolioId);
         investment.setShares(convertBalanceToShare);
+        investment.setCryptoName(transaction.getCryptoName());
+        investment.setInvestedAmount(transaction.getTransactionAmount());
+
+        return investment;
+    }
+    private Investment deleteInvestment(int investmentId, int portfolioId, BigDecimal shares,
+                                        Transaction transaction, CoinMarkets crypt) {
+        Investment investment = new Investment();
+        investment.setInvestmentId(investmentId);
+        investment.setPortfolioId(portfolioId);
+        investment.setShares(shares);
         investment.setCryptoName(transaction.getCryptoName());
         investment.setInvestedAmount(transaction.getTransactionAmount());
 
@@ -206,6 +313,9 @@ public class CryptoServiceImpl implements CryptoService{
         portfolioDao.updatePortfolioBalance(portfolio);
         return portfolio;
     }
+
+
+
 
     //keep in case we need to change external API
     private String[] externalAPIKey() {
