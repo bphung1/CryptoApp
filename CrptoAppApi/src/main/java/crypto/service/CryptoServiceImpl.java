@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 @Repository
 public class CryptoServiceImpl implements CryptoService{
@@ -131,7 +132,7 @@ public class CryptoServiceImpl implements CryptoService{
                 Investment investment = createInvestment(portfolioId, convertBalanceToShare, transaction, crypt);
                 investmentDao.addInvestment(portfolioId,investment);
 
-                Transaction completeTransaction = autoGenerateValues(transaction, portfolioId, convertBalanceToShare, crypt);
+                Transaction completeTransaction = autoGenerateValuesForTransaction(transaction, portfolioId, convertBalanceToShare, crypt);
                 transactionDao.addTransaction(completeTransaction);
                 updatePortfolio(transaction, portfolio);
                 return transaction;
@@ -156,6 +157,60 @@ public class CryptoServiceImpl implements CryptoService{
         return coinMarkets;
     }
 
+    @Override
+    public Transaction transactionForSell(int portfolioId, Transaction userInputTransaction) {
+        BigDecimal remainingUserInputShares = userInputTransaction.getShares();
+        try {
+            List<Investment> allActiveInvestments = investmentDao.getAllInvestments(portfolioId);
+            List<Investment> filteredInv = filterInvestments(allActiveInvestments, userInputTransaction.getCryptoName());
+
+            if (userInputTransaction.getShares().compareTo(getTotalShares(filteredInv)) <= 0 &&
+                    userInputTransaction.getShares().compareTo(new BigDecimal("0.00")) > 0
+            ) {
+                CoinMarkets selectedCrypto = getCrypto(userInputTransaction.getCryptoName());
+                Transaction newTransaction = autoGenerateValuesForTransaction(userInputTransaction, portfolioId,
+                        userInputTransaction.getShares(), selectedCrypto);
+
+                BigDecimal convertToAmount = selectedCrypto.getCurrent_price().multiply(userInputTransaction.getShares());
+                newTransaction.setTransactionAmount(convertToAmount);
+
+                transactionDao.addTransaction(newTransaction);
+
+                for (Investment inv : filteredInv) {
+                    if (inv.getShares().compareTo(remainingUserInputShares) <= 0) {
+                        remainingUserInputShares = remainingUserInputShares.subtract(inv.getShares());
+                        investmentDao.deleteInvestment(inv);
+                    } else if (inv.getShares().compareTo(remainingUserInputShares) > 0){
+                        inv.setShares(inv.getShares().subtract(remainingUserInputShares));
+                        inv.setInvestedAmount(selectedCrypto.getCurrent_price().multiply(inv.getShares()));
+                        remainingUserInputShares = remainingUserInputShares.subtract(remainingUserInputShares);
+                        investmentDao.updateInvestment(inv);
+                        break;
+                    }
+                }
+            } else {
+                return null;
+            }
+            return userInputTransaction;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private List<Investment> filterInvestments(List<Investment> investments, String cryptoName) {
+        return investments.stream().filter((p)-> p.getCryptoName()
+                        .equalsIgnoreCase(cryptoName))
+                .collect(Collectors.toList());
+    }
+
+    private BigDecimal getTotalShares(List<Investment> investments) {
+        BigDecimal total = new BigDecimal(0.00);
+        for (Investment inv : investments) {
+            total = total.add(inv.getShares());
+        }
+        return total;
+    }
+
     private CoinMarkets getCrypto(String symbol) {
         String url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=" +
                 symbol + "&order=market_cap_desc&per_page=100&page=1&sparkline=false";
@@ -172,8 +227,8 @@ public class CryptoServiceImpl implements CryptoService{
         return response;
     }
 
-    private Transaction autoGenerateValues(Transaction transaction, int portfolioId,
-                                           BigDecimal convertBalanceToShare, CoinMarkets crypt) {
+    private Transaction autoGenerateValuesForTransaction(Transaction transaction, int portfolioId,
+                                                         BigDecimal convertBalanceToShare, CoinMarkets crypt) {
         transaction.setPortfolioId(portfolioId);
         transaction.setTimestamp(LocalDateTime.now());
         transaction.setShares(convertBalanceToShare);

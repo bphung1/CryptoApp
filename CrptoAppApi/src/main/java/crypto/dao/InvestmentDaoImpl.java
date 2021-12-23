@@ -53,5 +53,14 @@ public class InvestmentDaoImpl implements InvestmentDao{
         return investment;
     }
 
+    @Override
+    public Investment updateInvestment(Investment investment) {
+        final String UPDATE_INVESTMENT = "UPDATE Investment SET investedAmount = ?, shares = ? where investmentId = ?;";
+//        final String UPDATE_INVESTMENT = "UPDATE Investment SET shares = ? WHERE investmentId = ?;";
+        jdbcTemplate.update(UPDATE_INVESTMENT, investment.getInvestedAmount(),investment.getShares(),investment.getInvestmentId());
+//        jdbcTemplate.update(UPDATE_INVESTMENT, investment.getShares(), investment.getInvestmentId());
+        return investment;
+    }
+
 
 }
