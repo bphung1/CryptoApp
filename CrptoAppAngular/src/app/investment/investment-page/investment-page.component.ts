@@ -98,6 +98,11 @@ export class InvestmentPageComponent implements OnInit {
       this.filterInvestments();
     })
   }
+
+  sellInvestment(investment){
+    this.router.navigateByUrl("/sellInvestment",{state:investment})
+  }
+
 }
 
 

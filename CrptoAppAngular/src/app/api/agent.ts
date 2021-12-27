@@ -80,4 +80,36 @@ export class Agent {
             return undefined;
         }); 
     }
+    
+    addTransaction(transaction: Transaction): Promise<Portfolio> {
+    
+        let transactionResponse = this.http.post<Transaction>(this.url +'/'+transaction.portfolioId+'/newtransaction', {
+            "transactionAmount":transaction.transactionAmount,
+            "cryptoName":transaction.cryptoName,
+            "transactionType":transaction.transactionType
+        })
+        .toPromise()
+        .catch(error => {
+            console.error(error.error);
+            return undefined;
+        });
+        
+        return transactionResponse;
+    }
+
+    sellTransaction(transaction: Transaction): Promise<Portfolio>{
+        let transactionResponse = this.http.post<Transaction>(this.url +'/'+transaction.portfolioId+'/selltransaction', {
+            "shares":transaction.shares,
+            "cryptoName":transaction.cryptoName,
+            "transactionType":transaction.transactionType
+        })
+        .toPromise()
+        .catch(error => {
+            console.error(error.error);
+            return undefined;
+        });
+        
+        return transactionResponse;
+    }
+
 }

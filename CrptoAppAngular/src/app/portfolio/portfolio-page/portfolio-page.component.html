@@ -10,6 +10,8 @@
 <div class="depositDiv" *ngIf="nonInvestedIsClicked">
   <button class="btn btn-dark text-uppercase fw-bold " (click)='deposit()'>Deposit</button>
   <button class="btn btn-dark text-uppercase fw-bold" (click)='withdraw()'>Withdraw</button>
+  <button class="btn btn-dark text-uppercase fw-bold" (click)='BuyCrypto()'>Buy Crypto</button>
+
 
   <div [ngClass]="[btnStyle]">
     <form #f="ngForm" (ngSubmit)="onSubmit()" [hidden] = "hideIt">
