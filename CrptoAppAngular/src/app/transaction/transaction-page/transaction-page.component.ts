@@ -31,7 +31,6 @@ export class TransactionPageComponent implements OnInit {
         this.transactions = transactions;
         this.transactions = this.transactions.reverse();
         this.isLoaded = true;
-        console.log(this.transactions);
       })
     })
   }
