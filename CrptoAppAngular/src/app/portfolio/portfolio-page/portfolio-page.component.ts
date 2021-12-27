@@ -123,4 +123,9 @@ export class PortfolioPageComponent implements OnInit {
   investOnClick() {
     this.investedIsClicked = !this.investedIsClicked;
   }
+
+  BuyCrypto(){
+    this.router.navigate(['buyInvestment']);
+  }
+
 }

@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./transaction-page.component.css']
 })
 export class TransactionPageComponent implements OnInit {
-portfolio:Portfolio;
-transactions:Transaction[];
-isLoaded = false;
+  portfolio: Portfolio;
+  transactions: Transaction[];
+  isLoaded = false;
 
   constructor(private service: Agent, private route:Router) { }
 

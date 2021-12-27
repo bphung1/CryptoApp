@@ -3,13 +3,15 @@
 <h2> Welcome {{user.username}} </h2>
 <div class="centerButton">
   <button class="nonInvestedButton" (click)="nonInvestOnClick()">
-    <h2> Available : ${{portfolio.nonInvestedBalance}} </h2>
+    <h2> Available: ${{portfolio.nonInvestedBalance}} </h2>
   </button>
 </div>
 
 <div class="depositDiv" *ngIf="nonInvestedIsClicked">
   <button class="btn btn-dark text-uppercase fw-bold " (click)='deposit()'>Deposit</button>
   <button class="btn btn-dark text-uppercase fw-bold" (click)='withdraw()'>Withdraw</button>
+  <button class="btn btn-dark text-uppercase fw-bold" (click)='BuyCrypto()'>Buy Crypto</button>
+
 
   <div [ngClass]="[btnStyle]">
     <form #f="ngForm" (ngSubmit)="onSubmit()" [hidden] = "hideIt">

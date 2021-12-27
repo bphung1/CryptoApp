@@ -10,6 +10,7 @@
         <th scope="col">Current Crypto Rate</th>
         <th scope="col">Percent Rate Change</th>
         <th scope="col">Current Invested Return </th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
         <td>{{ mergedInvestment.value[2] | number: '1.8-8' }}</td>
         <td>{{ mergedInvestment.value[3] | number: '1.8-8' }}</td>
         <td>{{ mergedInvestment.value[4] | number: '1.8-8' }}</td>
+        <td> <button class="btn btn-dark" (click)='sellInvestment(mergedInvestment)'> Sell Investment </button> </td>
       </tr>
       <tr class="result">
         <td colspan="3"></td>

@@ -8,6 +8,8 @@ import { HomeModule } from './home/home.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { InvestmentModule } from './investment/investment.module';
+import { SellModuleModule } from './sell-module/sell-module.module';
+import { BuyModuleModule } from './buy-module/buy-module.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { InvestmentModule } from './investment/investment.module';
     HomeModule,
     PortfolioModule,
     TransactionModule,
-    InvestmentModule
+    InvestmentModule,
+    SellModuleModule,
+    BuyModuleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
