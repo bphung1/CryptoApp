@@ -16,6 +16,7 @@ export class InvestmentPageComponent implements OnInit {
   portfolio : Portfolio;
   investments : Investment[];
   isLoaded = false;
+  interval;
   cryptoRates: Crypto[];
   totalReturn = 0;
 
@@ -51,10 +52,18 @@ export class InvestmentPageComponent implements OnInit {
         this.getCryptos();
         this.isLoaded = true;
       })
+      .then(() => {
+        this.runIntervals();
+      })
     })
   }
 
+  runIntervals() {
+    this.interval = setInterval(this.getCryptos, 5000);
+  }
+
   filterInvestments() {
+    this.totalReturn = 0;
     let usedCryptNames = new Set<string>();
     for (let currInvest of this.investments) {
         usedCryptNames.add(currInvest.cryptoName);
@@ -77,6 +86,7 @@ export class InvestmentPageComponent implements OnInit {
   }
 
   backToPortfolio() {
+    this.interval = clearInterval(this.interval);
     this.router.navigate(['portfolio']);
   }
 
@@ -91,22 +101,18 @@ export class InvestmentPageComponent implements OnInit {
   }
 
   //get everything from java API and save to a list
-  getCryptos() {
-    this.service.getCrypto()
+  getCryptos = async() => {
+    await this.service.getCrypto()
     .then(cryptos => {
       this.cryptoRates = cryptos;
       this.filterInvestments();
+      console.log(cryptos);
     })
   }
 
   sellInvestment(investment){
+    this.interval = clearInterval(this.interval);
     this.router.navigateByUrl("/sellInvestment",{state:investment})
   }
 
 }
-
-
-
-
-
-

@@ -12,7 +12,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let crypto of cryptoRates" class="dataTable">
-              <td> 
+              <td>
                 <input class="form-check-input" type="checkbox"  (change)="checkValues($event)"  value="{{crypto.id}}" id="flexCheckDefault">
                 {{ crypto.id }}</td>
               <td>${{ crypto.current_price | number: '1.8-8' }}</td>

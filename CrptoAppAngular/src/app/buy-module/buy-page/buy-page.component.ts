@@ -57,7 +57,7 @@ export class BuyPageComponent implements OnInit {
     this.router.navigate(['portfolio']);
   }
 
-  checkValues(e:any){
+  checkValues(e: any){
     let val = 0;
     if(e.target.checked == true){
       val = parseInt((document.getElementById(e.target.value) as HTMLInputElement).value);
