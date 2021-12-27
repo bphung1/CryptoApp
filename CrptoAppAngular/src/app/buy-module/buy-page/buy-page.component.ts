@@ -14,28 +14,43 @@ import { User } from 'src/app/model/user';
 export class BuyPageComponent implements OnInit {
 
   cryptoRates: Crypto[];
-  isloaded=false;
-  cryptoList=new Map<string,number>();
-  UserFromService:User;
-  portFolio:Portfolio;
-  transaction:Transaction= {portfolioId: 0, transactionAmount: 0,cryptoName:"",transactionType:"buy"};
-
+  isloaded = false;
+  selected = false;
+  cryptoList = new Map<string,number>();
+  UserFromService: User;
+  portfolio: Portfolio;
+  transaction: Transaction = { portfolioId: 0, transactionAmount: 0, cryptoName:"", transactionType:"buy" };
   
   constructor(private service:Agent,private router: Router) { 
   }
 
   ngOnInit(): void {
+    this.stayLoggedInForTestingPurpose();
+  }
+
+  loadCryptos() {
     this.service.getCrypto()
     .then(cryptos => {
       this.cryptoRates = cryptos;
       this.service.portfolioFromAPI.then(
         portfolio => {
-          this.portFolio=portfolio;
-          this.isloaded=true;
+          this.portfolio = portfolio;
+          this.isloaded = true;
         }
       )
     })
+  }
 
+  //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getInvestmentByPortfolio();
+  stayLoggedInForTestingPurpose() {
+    this.isloaded = false;
+    this.service.getUser('someone', 'password')
+      .then(user => {
+        this.service.getPortfolio(user.userid).then(portfolio => {
+          this.portfolio = portfolio;
+          this.loadCryptos();
+        });
+      })
   }
 
   backToPortfolio() {
@@ -43,13 +58,17 @@ export class BuyPageComponent implements OnInit {
   }
 
   checkValues(e:any){
-    let val=0;
-      if(e.target.checked==true){
-        val=parseInt((document.getElementById(e.target.value) as HTMLInputElement).value);
-         this.cryptoList.set(e.target.value,val);
-      }else{
-         this.cryptoList.delete(e.target.value);
+    let val = 0;
+    if(e.target.checked == true){
+      val = parseInt((document.getElementById(e.target.value) as HTMLInputElement).value);
+      this.cryptoList.set(e.target.value, val);
+      this.selected = true;
+    }else{
+      this.cryptoList.delete(e.target.value);
+      if (this.cryptoList.size == 0) {
+        this.selected = false;
       }
+    }
   }
 
   updateValues(e:any){
@@ -59,11 +78,11 @@ export class BuyPageComponent implements OnInit {
   }
 
   verifyBalance():boolean{
-    let total=0;
-   this.cryptoList.forEach((value: number, key: string) => {
-     total+=value;
+    let total = 0;
+    this.cryptoList.forEach((value: number, key: string) => {
+     total += value;
    })
-   if(this.portFolio.nonInvestedBalance<total){
+   if(this.portfolio.nonInvestedBalance<total){
      alert("insuffisant balance");
      return false;
    }
@@ -74,21 +93,21 @@ export class BuyPageComponent implements OnInit {
 
     if(this.verifyBalance()){
       this.cryptoList.forEach((value: number, key: string) => {
-        this.transaction.portfolioId=this.portFolio.portfolioId;
-        this.transaction.cryptoName=key;
-        this.transaction.transactionAmount=value;
-  
-        this.service.addTransaction(this.transaction).then(
-          portfolio=>{
-            if(portfolio!=undefined){
-            alert("you bought $"+value+" of "+key);
-            }else{
-            alert("transaction failed ");
-            }
-            this.router.navigate(['investment']);
-          })
-        });        
-      }
+      this.transaction.portfolioId = this.portfolio.portfolioId;
+      this.transaction.cryptoName = key;
+      this.transaction.transactionAmount = value;
 
+      this.service.addTransaction(this.transaction).then(
+        portfolio => {
+          if (portfolio != undefined){
+          alert("you bought $" + value + " of " + key);
+          } else {
+          alert("transaction failed ");
+          }
+          this.router.navigate(['investment']);
+        })
+      });        
     }
+
+  }
 }
