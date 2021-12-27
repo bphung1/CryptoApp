@@ -59,7 +59,7 @@ export class InvestmentPageComponent implements OnInit {
   }
 
   runIntervals() {
-    this.interval = setInterval(this.getCryptos, 5000);
+    this.interval = setInterval(this.getCryptos, 60000);
   }
 
   filterInvestments() {
