@@ -10,6 +10,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { InvestmentModule } from './investment/investment.module';
 import { SellModuleModule } from './sell-module/sell-module.module';
 import { BuyModuleModule } from './buy-module/buy-module.module';
+import { NewuserModule } from './newuser/newuser.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { BuyModuleModule } from './buy-module/buy-module.module';
     TransactionModule,
     InvestmentModule,
     SellModuleModule,
-    BuyModuleModule
+    BuyModuleModule,
+    NewuserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

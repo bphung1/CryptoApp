@@ -6,6 +6,7 @@ import { TransactionPageComponent } from './transaction/transaction-page/transac
 import { InvestmentPageComponent } from './investment/investment-page/investment-page.component';
 import { SellPageComponent } from './sell-module/sell-page/sell-page.component';
 import { BuyPageComponent } from './buy-module/buy-page/buy-page.component';
+import { NewuserComponent } from './newuser/newuser.component';
 
 const routes: Routes = [
   { path: 'homepage', component: HomepageComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'investment', component: InvestmentPageComponent},
   { path: 'sellInvestment', component: SellPageComponent},
   { path: 'buyInvestment', component: BuyPageComponent},
+  { path: 'newuser', component: NewuserComponent },
   { path: '', redirectTo: '/homepage', pathMatch: 'full'},
 ];
 
