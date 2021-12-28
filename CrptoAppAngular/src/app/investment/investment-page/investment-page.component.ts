@@ -106,7 +106,6 @@ export class InvestmentPageComponent implements OnInit {
     .then(cryptos => {
       this.cryptoRates = cryptos;
       this.filterInvestments();
-      console.log(cryptos);
     })
   }
 
