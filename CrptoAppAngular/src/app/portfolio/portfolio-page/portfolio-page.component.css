@@ -47,3 +47,10 @@ button {
     align-items: center;
     margin-bottom: 50px;
 }
+
+.logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+}

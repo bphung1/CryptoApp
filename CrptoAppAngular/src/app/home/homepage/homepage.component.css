@@ -22,3 +22,7 @@ input.ng-invalid.ng-touched {
 .form-group {
     margin-top: 15px;
 }
+
+.btn {
+    width: 130px;
+}

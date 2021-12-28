@@ -21,10 +21,26 @@ export class PortfolioPageComponent implements OnInit {
   nonInvestedIsClicked = false;
   investedIsClicked = false;
 
+  counter = 0;
+
   constructor(private router: Router,private service: Agent) { }
 
   ngOnInit(): void {
-    this.stayLoggedInForTestingPurpose();
+    //this.stayLoggedInForTestingPurpose();
+    this.getUserAndPortfolio();
+  }
+
+  printLiveCounter() {
+    let counter = 0;
+
+    setInterval(printCount, 1000);
+
+    function printCount() {
+      if (counter % 5 === 0) {
+        document.getElementById('demo').innerHTML = counter.toString();
+      }
+      counter++;
+    }
   }
 
   //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getUserAndPortfolio();
@@ -108,4 +124,13 @@ export class PortfolioPageComponent implements OnInit {
   investOnClick() {
     this.investedIsClicked = !this.investedIsClicked;
   }
+
+  BuyCrypto(){
+    this.router.navigate(['buyInvestment']);
+  }
+
+  logout() {
+    this.router.navigate(['homepage']);
+  }
+
 }
