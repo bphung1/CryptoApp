@@ -26,7 +26,8 @@ export class PortfolioPageComponent implements OnInit {
   constructor(private router: Router,private service: Agent) { }
 
   ngOnInit(): void {
-    this.stayLoggedInForTestingPurpose();
+    //this.stayLoggedInForTestingPurpose();
+    this.getUserAndPortfolio();
   }
 
   printLiveCounter() {
@@ -126,6 +127,10 @@ export class PortfolioPageComponent implements OnInit {
 
   BuyCrypto(){
     this.router.navigate(['buyInvestment']);
+  }
+
+  logout() {
+    this.router.navigate(['homepage']);
   }
 
 }
