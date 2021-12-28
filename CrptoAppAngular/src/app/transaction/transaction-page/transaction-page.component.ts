@@ -22,7 +22,7 @@ export class TransactionPageComponent implements OnInit {
   
   getTransactionForPortfolio(){
     this.isLoaded = false;
-    this.service.portfolioFromAPI.then(portfolio=>{
+    this.service.portfolioFromAPI.then(portfolio => {
       this.portfolio = portfolio;
     })
     .then(()=>{
