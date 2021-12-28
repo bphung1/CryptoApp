@@ -47,8 +47,6 @@ export class Agent {
           return undefined;
       });
 
-      console.log(user);
-
       return user;
     }
 

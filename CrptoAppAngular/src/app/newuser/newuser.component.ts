@@ -18,14 +18,21 @@ export class NewuserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createNewUser() {
+  createNewUser = async() => {
     let userInputUsername = this.signupForm.value.userData.username;
     let userInputPassword = this.signupForm.value.userData.password;
     let userInputEmail = this.signupForm.value.userData.email;
 
-    this.service.postUser(userInputUsername, userInputPassword, userInputEmail);
+    let newUser = await this.service.postUser(userInputUsername, userInputPassword, userInputEmail);
 
-    this.router.navigate(['homepage']);
+    if(newUser !== undefined) {
+
+      alert("User has successfully been created.");
+      this.router.navigate(['homepage']);
+      
+    } else {
+      alert("User already exists.");
+    }
   }
 
 }
