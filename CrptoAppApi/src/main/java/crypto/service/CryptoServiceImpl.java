@@ -176,6 +176,11 @@ public class CryptoServiceImpl implements CryptoService{
 
                 transactionDao.addTransaction(newTransaction);
 
+                Portfolio portfolio = portfolioDao.getPortfolio(portfolioId);
+                portfolio.setNonInvestedBalance(portfolio.getNonInvestedBalance().add(convertToAmount));
+                portfolio.setInvestedTotalBalance(portfolio.getInvestedTotalBalance().subtract(convertToAmount));
+                portfolioDao.updatePortfolioBalance(portfolio);
+
                 for (Investment inv : filteredInv) {
                     if (inv.getShares().compareTo(remainingUserInputShares) <= 0) {
                         remainingUserInputShares = remainingUserInputShares.subtract(inv.getShares());

@@ -24,7 +24,8 @@ export class SellPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.stayLoggedInForTestingPurpose();
+    // this.stayLoggedInForTestingPurpose();
+    this.loadPortfolio();
   }
 
   loadPortfolio() {
@@ -56,7 +57,7 @@ export class SellPageComponent implements OnInit {
     this.service.sellTransaction(this.transaction).then(
       portfolio => {
         if(portfolio != undefined){
-          alert("you sold $" + this.transaction.shares + " shares of " + this.transaction.cryptoName);
+          alert("you sold " + this.transaction.shares + " shares of " + this.transaction.cryptoName);
         }else{
           alert("transaction failed ");
         }

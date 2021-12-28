@@ -25,7 +25,8 @@ export class BuyPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stayLoggedInForTestingPurpose();
+    // this.stayLoggedInForTestingPurpose();
+    this.loadPortfolio();
   }
 
   loadCryptos() {
@@ -39,6 +40,16 @@ export class BuyPageComponent implements OnInit {
         }
       )
     })
+  }
+
+  loadPortfolio() {
+    this.isloaded = false;
+    this.service.portfolioFromAPI.then(
+      portfolio => { 
+        this.portfolio = portfolio;
+        this.loadCryptos();
+      }
+    )
   }
 
   //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getInvestmentByPortfolio();
@@ -98,11 +109,11 @@ export class BuyPageComponent implements OnInit {
       this.transaction.transactionAmount = value;
 
       this.service.addTransaction(this.transaction).then(
-        portfolio => {
-          if (portfolio != undefined){
-          alert("you bought $" + value + " of " + key);
+        transaction => {
+          if (transaction != undefined){
+            alert(`You bought $${value} of ${key} at the rate of: ${transaction.cryptoRate} for ${transaction.shares} shares`);
           } else {
-          alert("transaction failed ");
+            alert("transaction failed ");
           }
           this.router.navigate(['investment']);
         })

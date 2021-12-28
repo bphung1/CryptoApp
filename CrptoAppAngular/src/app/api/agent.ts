@@ -81,7 +81,7 @@ export class Agent {
         }); 
     }
     
-    addTransaction(transaction: Transaction): Promise<Portfolio> {
+    addTransaction(transaction: Transaction): Promise<Transaction> {
     
         let transactionResponse = this.http.post<Transaction>(this.url +'/'+transaction.portfolioId+'/newtransaction', {
             "transactionAmount":transaction.transactionAmount,
@@ -97,7 +97,7 @@ export class Agent {
         return transactionResponse;
     }
 
-    sellTransaction(transaction: Transaction): Promise<Portfolio>{
+    sellTransaction(transaction: Transaction): Promise<Transaction>{
         let transactionResponse = this.http.post<Transaction>(this.url +'/'+transaction.portfolioId+'/selltransaction', {
             "shares":transaction.shares,
             "cryptoName":transaction.cryptoName,

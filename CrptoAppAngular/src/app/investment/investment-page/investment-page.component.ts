@@ -23,7 +23,8 @@ export class InvestmentPageComponent implements OnInit {
   filteredInvestments = new Map<string, number[]>();
    
   ngOnInit(): void {
-    this.stayLoggedInForTestingPurpose();
+    // this.stayLoggedInForTestingPurpose();
+    this.getInvestmentByPortfolio();
   }
   
   //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getInvestmentByPortfolio();
@@ -104,9 +105,3 @@ export class InvestmentPageComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
