@@ -16,6 +16,7 @@ export class BuyPageComponent implements OnInit {
   cryptoRates: Crypto[];
   isloaded = false;
   selected = false;
+  interval;
   cryptoList = new Map<string,number>();
   UserFromService: User;
   portfolio: Portfolio;
@@ -29,29 +30,30 @@ export class BuyPageComponent implements OnInit {
     this.loadPortfolio();
   }
 
-  loadCryptos() {
-    this.service.getCrypto()
-    .then(cryptos => {
-      this.cryptoRates = cryptos;
-      this.service.portfolioFromAPI.then(
-        portfolio => {
-          this.portfolio = portfolio;
-          this.isloaded = true;
-        }
-      )
-    })
-  }
-
   loadPortfolio() {
     this.isloaded = false;
     this.service.portfolioFromAPI.then(
       portfolio => { 
         this.portfolio = portfolio;
         this.loadCryptos();
+        this.isloaded = true;
       }
     )
+    .then(() => {
+      this.runIntervals();
+    });
   }
 
+  runIntervals() {
+    this.interval = setInterval(this.loadCryptos, 60000);
+  }
+
+  loadCryptos = async() => {
+    await this.service.getCrypto()
+    .then(cryptos => {
+      this.cryptoRates = cryptos;
+    })
+  }
   //DELETE AFTER FINISH BUILDING APP AND REPLACE WITH this.getInvestmentByPortfolio();
   stayLoggedInForTestingPurpose() {
     this.isloaded = false;
@@ -65,6 +67,7 @@ export class BuyPageComponent implements OnInit {
   }
 
   backToPortfolio() {
+    this.interval = clearInterval(this.interval);
     this.router.navigate(['portfolio']);
   }
 
@@ -115,6 +118,7 @@ export class BuyPageComponent implements OnInit {
           } else {
             alert("transaction failed ");
           }
+          this.interval = clearInterval(this.interval);
           this.router.navigate(['investment']);
         })
       });        
