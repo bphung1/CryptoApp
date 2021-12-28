@@ -34,6 +34,22 @@ export class Agent {
         return user;
     }
 
+    //post new user
+    postUser (username: string | string, password: string | string, email: string | string) {
+      let user = this.http.post<User>(this.url + '/create', {
+        'username': username,
+        'password': password,
+        'email': email
+      })
+      .toPromise()
+      .catch(error => {
+          console.error(error.error);
+          return undefined;
+      });
+
+      return user;
+    }
+
     //get portfolio
     getPortfolio(userId: string | number): Promise<Portfolio> {
         let portfolio = this.http.get<Portfolio>(this.url + `/${userId}/getportfolio`)
@@ -78,7 +94,7 @@ export class Agent {
         .catch(error => {
             console.error(error.error);
             return undefined;
-        }); 
+        });
     }
     
     addTransaction(transaction: Transaction): Promise<Transaction> {
@@ -93,7 +109,7 @@ export class Agent {
             console.error(error.error);
             return undefined;
         });
-        
+
         return transactionResponse;
     }
 
@@ -108,7 +124,7 @@ export class Agent {
             console.error(error.error);
             return undefined;
         });
-        
+
         return transactionResponse;
     }
 

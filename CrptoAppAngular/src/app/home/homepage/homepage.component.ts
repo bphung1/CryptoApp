@@ -30,7 +30,7 @@ export class HomepageComponent implements OnInit {
     let userInputPassword = this.signupForm.value.userData.password;
 
     this.getUser(userInputUsername, userInputPassword);
-    
+
     this.user$.then(user => {
       this.isLoaded = false;
       this.user = user;
@@ -43,6 +43,10 @@ export class HomepageComponent implements OnInit {
       this.isLoaded = true;
     });
 
+  }
+
+  toNewUser() {
+    this.router.navigate(['newuser']);
   }
 
 }
