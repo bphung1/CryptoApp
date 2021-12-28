@@ -129,4 +129,8 @@ export class PortfolioPageComponent implements OnInit {
     this.router.navigate(['buyInvestment']);
   }
 
+  logout() {
+    this.router.navigate(['homepage']);
+  }
+
 }

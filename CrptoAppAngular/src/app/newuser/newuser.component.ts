@@ -35,4 +35,8 @@ export class NewuserComponent implements OnInit {
     }
   }
 
+  goBack() {
+    this.router.navigate(['homepage']);
+  }
+
 }
