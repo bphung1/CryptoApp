@@ -90,6 +90,9 @@ export class InvestmentPageComponent implements OnInit {
     this.interval = clearInterval(this.interval);
     this.router.navigate(['portfolio']);
   }
+  goToChart(){
+    this.router.navigate(['tradingview']);
+  }
 
   //use the list from getCryptos()
   getCryptoByName(symbol: string): number {

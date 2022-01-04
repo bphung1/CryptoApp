@@ -7,6 +7,7 @@ import { InvestmentPageComponent } from './investment/investment-page/investment
 import { SellPageComponent } from './sell-module/sell-page/sell-page.component';
 import { BuyPageComponent } from './buy-module/buy-page/buy-page.component';
 import { NewuserComponent } from './newuser/newuser.component';
+import { TradingviewComponent } from './tradingview/tradingview/tradingview.component';
 
 const routes: Routes = [
   { path: 'homepage', component: HomepageComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'sellInvestment', component: SellPageComponent},
   { path: 'buyInvestment', component: BuyPageComponent},
   { path: 'newuser', component: NewuserComponent },
+  {path: 'tradingview', component:TradingviewComponent},
   { path: '', redirectTo: '/homepage', pathMatch: 'full'},
 ];
 

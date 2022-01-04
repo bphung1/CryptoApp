@@ -10,7 +10,7 @@ import { Crypto } from "../model/crypto";
     providedIn: 'root'
 })
 export class Agent {
-    url = 'https://cryptappl.herokuapp.com/api';
+    url = 'http://localhost:8080/api/';
 
     public userFromAPI: Promise<User>;
     public portfolioFromAPI: Promise<Portfolio>;
